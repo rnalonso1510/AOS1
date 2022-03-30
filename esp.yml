@@ -29,9 +29,6 @@ servers:
       basePath:
         description: Ruta base
         default: api/v1
-tags:
-  - name: 'Trabajo'
-    description: Trabajos de los usuarios
 paths:
   /facturas:
     get:
@@ -53,6 +50,20 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Factura'
+    put: 
+      tags: 
+        - 'Facturas'
+      summary: Crea una factura.
+      description: Creates a new user
+      operationId: api_users_post
+      security:
+        - MiWApiSecurity:
+            - writer
+      requestBody:
+        $ref: '#/components/requestBodies/FacturaRequestBody'
+      responses:
+        '201':
+          description: '`Created`: user created'
     post: 
       tags: 
         - 'Facturas'
@@ -76,16 +87,65 @@ paths:
       responses:
         '204':
           description: '`Allow` header &lt;Response body is empty&gt;'
-         
+  /facturas/{id}: 
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags:
+        - 'Facturas'
+      summary: Retrieves a User resource based on a single ID.
+      description: Returns the user identified by `userId`.
+      operationId: api_users_get
+      security:
+        - MiWApiSecurity:
+            - reader
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+    put:
+      tags:
+        - 'Facturas'
+      summary: Updates the User resource.
+      description: Updates the user identified by `userId`.
+      operationId: api_users_put
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Factura'
+      security:
+        - MiWApiSecurity:
+            - writer
+    delete:
+      tags:
+        - 'Facturas'
+      summary: Removes the User resource.
+      description: Deletes the user identified by `userId`.
+      operationId: api_users_delete
+      security:
+        - MiWApiSecurity:
+            - writer
+      responses:
+        '204':
+          description: User deleted &lt;Response body is empty&gt;
+    options:
+      tags:
+        - 'Facturas'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: api_users_options_id
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'         
 components:
   securitySchemes: {}
   schemas:
-    Id:
-      type: integer
-      description: Id de la factura
-      format: int
-      pattern: '[0-9]*'
-      x-last-modified: 1648661215481
     Factura:
       type: object
       description: Contenido de una factura
@@ -206,3 +266,4 @@ components:
               email: User_email@example.com
               password: User_password
               role: reader
+
