@@ -37,8 +37,8 @@ paths:
     get:
       tags:
         - 'Facturas'
-      summary: Retrieves the collection of User resources.
-      description: Returns all users from the system that the user has access to.
+      summary: Devuelve todas las facturas existentes
+      description: Devuelve todas las facturas del sistema
       operationId: api_users_cget
       responses:
         '200':
@@ -53,6 +53,30 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Factura'
+    post: 
+      tags: 
+        - 'Facturas'
+      summary: Crea una factura.
+      description: Creates a new user
+      operationId: api_users_post
+      security:
+        - MiWApiSecurity:
+            - writer
+      requestBody:
+        $ref: '#/components/requestBodies/FacturaRequestBody'
+      responses:
+        '201':
+          description: '`Created`: user created'
+    options:
+      tags:
+        - 'Facturas'
+      summary: Provides the list of HTTP supported methods.
+      description: Return a `Allow` header with a comma separated list of HTTP supported methods.
+      operationId: api_users_coptions
+      responses:
+        '204':
+          description: '`Allow` header &lt;Response body is empty&gt;'
+         
 components:
   securitySchemes: {}
   schemas:
@@ -149,4 +173,36 @@ components:
       value:
         code: '400'
         message: Invalid Request
-      x-last-modified: 1648661463669
+      x-last-modified: 164866146366
+  requestBodies:
+    FacturaRequestBody:
+      description: '`Factura` data'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                description: User name
+                type: string
+              email:
+                description: User email
+                type: string
+                format: email
+              password:
+                description: User password
+                type: string
+                format: password
+              role:
+                description: User role
+                type: string
+                default: reader
+                enum:
+                  - reader
+                  - writer
+            example:
+              username: username
+              email: User_email@example.com
+              password: User_password
+              role: reader
