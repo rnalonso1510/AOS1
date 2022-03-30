@@ -1,0 +1,152 @@
+openapi: "3.0.3"
+info:
+  title: "Subsistema 5: Gestión y emisión de facturas"
+  version: "1.0.0"
+  description: "Asignatura AOS: grupo 8"
+  license:
+    name: AOSGrupo8
+    url: 'aaa'
+  contact:
+    name: Arquitecturas Orientadas a Servicios
+    url: 'aaa'
+    email: aaaaa@aaa.com
+servers:
+  - url: '{schema}://{server}:{port}/{basePath}'
+    description: Servidor local
+    variables:
+      schema:
+        description: Esquema
+        default: http
+        enum:
+          - http
+          - https
+      server:
+        description: Nombre del servidor
+        default: 127.0.0.1
+      port:
+        description: Número de puerto
+        default: '80'
+      basePath:
+        description: Ruta base
+        default: api/v1
+tags:
+  - name: 'Trabajo'
+    description: Trabajos de los usuarios
+paths:
+  /facturas:
+    get:
+      tags:
+        - 'Facturas'
+      summary: Retrieves the collection of User resources.
+      description: Returns all users from the system that the user has access to.
+      operationId: api_users_cget
+      responses:
+        '200':
+          description: Array of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    description: Users array
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Factura'
+components:
+  securitySchemes: {}
+  schemas:
+    Id:
+      type: integer
+      description: Id de la factura
+      format: int
+      pattern: '[0-9]*'
+      x-last-modified: 1648661215481
+    Factura:
+      type: object
+      description: Contenido de una factura
+      properties:
+        facturaId:
+          description: Identificador de la factura
+          readOnly: True
+          type: integer
+          format: int32
+        Conceptos:
+          description: Contenido de una factura
+          type: array
+          items:
+            $ref: '#/components/schemas/Trabajo'
+    Trabajo:
+      type: object
+      description: Añadir descripción 
+      properties:
+        trabajoId:
+          description: Identificador del trabajo
+          readOnly: true
+          type: integer
+          format: int32
+        idVehiculo:
+          description: ID del vehículo sobre el que se reliza el trabajo
+          readOnly: true
+          type: integer
+          format: int32
+        idCliente:
+          description: ID del cliente propietario del vehículo
+          readOnly: true
+          type: integer
+          format: int32
+        nombre:
+          description: Nombre del tipo de trabajo
+          type: string
+        descripcion:
+          description: Descripción del trabajo
+          type: string
+        estadoTrabajo:
+          description: Posibles estados del trabajo [Creado, Planificado, Iniciado, Terminado]
+          type: string
+          enum:
+          - "Creado"
+          - "Planificado"
+          - "Iniciado"
+          - "Terminado"    #linea 674
+        fechaInicio:
+          description: Fecha en la que se inicializa el trabajo
+          type: string
+          format: date-time
+        fechaFin:
+          description: Fecha en la que se finaliza el trabajo
+          type: string
+          format: date-time
+      x-last-modified: 1648662408321
+  headers: {}
+  responses:
+    '200':
+      description: Operación exitosa
+      x-last-modified: 1648661433969
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Factura'
+  parameters:
+    id:
+      in: path
+      name: id
+      example: GET /api/5c2e12a0-3391-4a4a-b82e-1f7de848c7aa
+      description: |-
+        **ID**. 
+         ID de la factura. 
+         La API responde con la factura.
+      schema:
+        type: number
+        format: uuid
+      x-last-modified: 1648661309447
+      required: true
+      deprecated: false
+  examples:
+    error:
+      summary: Invalid Request
+      description: Ejemplo de respuesta cuando el id de factura no existe
+      value:
+        code: '400'
+        message: Invalid Request
+      x-last-modified: 1648661463669
