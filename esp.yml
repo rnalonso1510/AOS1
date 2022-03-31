@@ -45,7 +45,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  users:
+                  facturas:
                     description: Users array
                     type: array
                     items:
@@ -68,7 +68,7 @@ paths:
       tags: 
         - 'Facturas'
       summary: Crea una factura.
-      description: Creates a new user
+      description: Crea una nueva factura
       operationId: api_users_post
       security:
         - MiWApiSecurity:
@@ -77,7 +77,7 @@ paths:
         $ref: '#/components/requestBodies/FacturaRequestBody'
       responses:
         '201':
-          description: '`Created`: user created'
+          description: '`Created`: Factura created'
     options:
       tags:
         - 'Facturas'
@@ -143,6 +143,36 @@ paths:
       responses:
         '204':
           description: '`Allow` header &lt;Response body is empty&gt;'         
+  /clientes/{id}/facturas/:
+    parameters:
+    - $ref: '#/components/parameters/id'
+
+    get:
+        tags:
+          - 'Clientes'
+        summary: Devuelve todas las facturas de un cliente.
+        description: Dado un idCliente, devuelve todas sus facturas.
+        operationId: api_users_get
+        security:
+          - MiWApiSecurity:
+              - reader
+        responses:
+          '200':
+            description: Array de facturas
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    facturas:
+                      description: Factura array
+                      type: array
+                      items:
+                        $ref: '#/components/parameters/id'
+
+
+
+
 components:
   securitySchemes: {}
   schemas:
@@ -242,28 +272,7 @@ components:
         application/json:
           schema:
             type: object
-            properties:
-              username:
-                description: User name
-                type: string
-              email:
-                description: User email
-                type: string
-                format: email
-              password:
-                description: User password
-                type: string
-                format: password
-              role:
-                description: User role
-                type: string
-                default: reader
-                enum:
-                  - reader
-                  - writer
-            example:
-              username: username
-              email: User_email@example.com
-              password: User_password
-              role: reader
+            $ref: '#/components/schemas/Factura'
+
+
 
