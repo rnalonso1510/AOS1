@@ -145,7 +145,7 @@ paths:
           description: '`Allow` header &lt;Response body is empty&gt;'         
   /clientes/{id}/facturas/:
     parameters:
-    - $ref: '#/components/parameters/id'
+    - $ref: '#/components/parameters/idCliente'
 
     get:
         tags:
@@ -176,6 +176,8 @@ paths:
 components:
   securitySchemes: {}
   schemas:
+    HTTP_Problem:
+      $ref: './schemas/http_problem.yml'
     Factura:
       type: object
       description: Contenido de una factura
@@ -241,29 +243,59 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Factura'
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response-http-404'
+    Response_412:
+      description: '`PRECONDITION FAILED`: El ETag proporcionado no está actualizado'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-412:
+              $ref: '#/components/examples/response-http-412'
+    Response_422:
+      description: >
+        `UNPROCESSABLE ENTITY`
+        Falta alguno de los atributos obligatorios (`nombre`, `empresa`, `version` o `año_publicación`)
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response-http-422'
   parameters:
     id:
       in: path
       name: id
-      example: GET /api/5c2e12a0-3391-4a4a-b82e-1f7de848c7aa
       description: |-
         **ID**. 
          ID de la factura. 
          La API responde con la factura.
-      schema:
         type: number
         format: uuid
       x-last-modified: 1648661309447
       required: true
       deprecated: false
-  examples:
-    error:
-      summary: Invalid Request
-      description: Ejemplo de respuesta cuando el id de factura no existe
-      value:
-        code: '400'
-        message: Invalid Request
-      x-last-modified: 164866146366
+    idCliente:
+      in: path
+      name: idCliente
+      description: |-
+        **ID**. 
+         ID del cliente. 
+        type: number
+        format: uuid
+      x-last-modified: 1648661309447
+      required: true
+      deprecated: false
   requestBodies:
     FacturaRequestBody:
       description: '`Factura` data'
@@ -273,6 +305,29 @@ components:
           schema:
             type: object
             $ref: '#/components/schemas/Factura'
+  examples:
+    response-http-404:
+        value:
+          type: https://httpstatuses.com/404
+          title: NOT FOUND
+          status: 404
+          detail: El recurso solicitado no está disponible.
+          instance: about:blank
+    response-http-412:
+        value:
+          type: https://httpstatuses.com/412
+          title: PRECONDITION FAILED
+          status: 412
+          detail: El ETag proporcionado no está actualizado
+          instance: about:blank
+
+    response-http-422:
+        value:
+          type: https://httpstatuses.com/422
+          title: UNPROCESSABLE ENTITY
+          status: 422
+          detail: Falta alguno de los atributos obligatorios (nombre, empresa, version o año_publicación)
+          instance: about:blank
 
 
 
