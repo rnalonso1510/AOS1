@@ -22,7 +22,7 @@ servers:
           - https
       server:
         description: Nombre del servidor
-        default: 127.0.0.1g
+        default: 127.0.0.1
       port:
         description: Número de puerto
         default: '80'
@@ -189,7 +189,6 @@ components:
           format: int32
         idCliente:
           description: ID del cliente propietario del vehículo
-          readOnly: true
           type: integer
           format: int32
         Conceptos:
@@ -204,24 +203,21 @@ components:
         importe:
           type: integer
           format: int32
-          
+
     Trabajo:
       type: object
       description: Añadir descripción 
       properties:
         trabajoId:
           description: Identificador del trabajo
-          readOnly: true
           type: integer
           format: int32
         idVehiculo:
           description: ID del vehículo sobre el que se reliza el trabajo
-          readOnly: true
           type: integer
           format: int32
         idCliente:
           description: ID del cliente propietario del vehículo
-          readOnly: true
           type: integer
           format: int32
         nombre:
