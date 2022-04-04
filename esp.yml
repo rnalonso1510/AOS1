@@ -22,7 +22,7 @@ servers:
           - https
       server:
         description: Nombre del servidor
-        default: 127.0.0.1
+        default: 127.0.0.1g
       port:
         description: Número de puerto
         default: '80'
@@ -36,17 +36,17 @@ paths:
         - 'Facturas'
       summary: Devuelve todas las facturas existentes
       description: Devuelve todas las facturas del sistema
-      operationId: api_users_cget
+      operationId: api_facturas_cget
       responses:
         '200':
-          description: Array of users
+          description: Array de facturas
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   facturas:
-                    description: Users array
+                    description: Array de facturas
                     type: array
                     items:
                       $ref: '#/components/schemas/Factura'
@@ -54,8 +54,8 @@ paths:
       tags: 
         - 'Facturas'
       summary: Crea una factura.
-      description: Creates a new user
-      operationId: api_users_post
+      description: Crea una nueva factura
+      operationId: api_facturas_post
       security:
         - MiWApiSecurity:
             - writer
@@ -63,13 +63,13 @@ paths:
         $ref: '#/components/requestBodies/FacturaRequestBody'
       responses:
         '201':
-          description: '`Created`: user created'
+          description: '`Created`: Factura created'
     post: 
       tags: 
         - 'Facturas'
       summary: Crea una factura.
       description: Crea una nueva factura
-      operationId: api_users_post
+      operationId: api_facturas_post
       security:
         - MiWApiSecurity:
             - writer
@@ -83,7 +83,7 @@ paths:
         - 'Facturas'
       summary: Provides the list of HTTP supported methods.
       description: Return a `Allow` header with a comma separated list of HTTP supported methods.
-      operationId: api_users_coptions
+      operationId: api_facturas_coptions
       responses:
         '204':
           description: '`Allow` header &lt;Response body is empty&gt;'
@@ -93,15 +93,15 @@ paths:
     get:
       tags:
         - 'Facturas'
-      summary: Retrieves a User resource based on a single ID.
-      description: Returns the user identified by `userId`.
-      operationId: api_users_get
+      summary: Devuelve una factura tras especificar su ID.
+      description: Devuelve una factura tras especificar su `ID`.
+      operationId: api_facturas_get
       security:
         - MiWApiSecurity:
             - reader
       responses:
         '200':
-          description: User
+          description: Devolvemos un objeto del tipo factura
           content:
             application/json:
               schema:
@@ -109,12 +109,12 @@ paths:
     put:
       tags:
         - 'Facturas'
-      summary: Updates the User resource.
-      description: Updates the user identified by `userId`.
-      operationId: api_users_put
+      summary: Updates 
+      description: Actualiza la factura tras pasar su `facturaId`.
+      operationId: api_facturas_put
       responses:
         '200':
-          description: User
+          description: Factura
           content:
             application/json:
               schema:
@@ -125,21 +125,21 @@ paths:
     delete:
       tags:
         - 'Facturas'
-      summary: Removes the User resource.
-      description: Deletes the user identified by `userId`.
-      operationId: api_users_delete
+      summary: Elimina el recurso Factura.
+      description: Elimina el recurso Factura tras especificar su `facturaId`.
+      operationId: api_facturas_delete
       security:
         - MiWApiSecurity:
             - writer
       responses:
         '204':
-          description: User deleted &lt;Response body is empty&gt;
+          description: Factura deleted &lt;Response body is empty&gt;
     options:
       tags:
         - 'Facturas'
       summary: Provides the list of HTTP supported methods.
       description: Return a `Allow` header with a comma separated list of HTTP supported methods.
-      operationId: api_users_options_id
+      operationId: api_facturas_options_id
       responses:
         '204':
           description: '`Allow` header &lt;Response body is empty&gt;'         
@@ -152,7 +152,7 @@ paths:
           - 'Clientes'
         summary: Devuelve todas las facturas de un cliente.
         description: Dado un idCliente, devuelve todas sus facturas.
-        operationId: api_users_get
+        operationId: api_facturas_get
         security:
           - MiWApiSecurity:
               - reader
@@ -187,11 +187,24 @@ components:
           readOnly: True
           type: integer
           format: int32
+        idCliente:
+          description: ID del cliente propietario del vehículo
+          readOnly: true
+          type: integer
+          format: int32
         Conceptos:
           description: Contenido de una factura
           type: array
           items:
             $ref: '#/components/schemas/Trabajo'
+        fechaEmision:
+          description: Fecha de emisión de la factura
+          type: string
+          format: date-time
+        importe:
+          type: integer
+          format: int32
+          
     Trabajo:
       type: object
       description: Añadir descripción 
@@ -224,7 +237,7 @@ components:
           - "Creado"
           - "Planificado"
           - "Iniciado"
-          - "Terminado"    #linea 674
+          - "Terminado"    
         fechaInicio:
           description: Fecha en la que se inicializa el trabajo
           type: string
@@ -298,14 +311,44 @@ components:
       deprecated: false
   requestBodies:
     FacturaRequestBody:
-      description: '`Factura` data'
+      description: 'Datos de la `Factura`'
       required: true
       content:
         application/json:
           schema:
             type: object
             $ref: '#/components/schemas/Factura'
+    deleteFacturaRequestBody:
+      description: 'Informacion para el borrado de la `Factura`'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idFactura:
+                description: ID de la factura que se desea borrar
+                type: integer
+
+    updateFacturaRequestBody:
+      description: 'Informacion para la actualizacion de la `Factura`'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idFactura:
+                description: ID de la factura que se desea borrar
+                type: integer
   examples:
+    response-http-400:
+        value:
+          type: https://httpstatuses.com/400
+          title: BAD REQUEST
+          status: 400
+          detail: El servidor no puede procesar la peticion debido a que se ha percibido un error en el cliente.
+          instance: about:blank
     response-http-404:
         value:
           type: https://httpstatuses.com/404
