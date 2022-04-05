@@ -50,20 +50,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Factura'
-    put: 
-      tags: 
-        - 'Facturas'
-      summary: Crea una factura.
-      description: Crea una nueva factura
-      operationId: api_facturas_post
-      security:
-        - MiWApiSecurity:
-            - writer
-      requestBody:
-        $ref: '#/components/requestBodies/FacturaRequestBody'
-      responses:
-        '201':
-          description: '`Created`: Factura created'
     post: 
       tags: 
         - 'Facturas'
@@ -78,6 +64,13 @@ paths:
       responses:
         '201':
           description: '`Created`: Factura created'
+          links:
+            GetFacturas:
+              operationRef: '#/'
+              parameters:
+                idCliente: '$response.body#/idCliente'
+              description: >
+                El `id` devuelto por la petición puede ser usado como `facturaId` en `GET /facturas/{id]`
     options:
       tags:
         - 'Facturas'
@@ -203,6 +196,14 @@ components:
         importe:
           type: integer
           format: int32
+        links:
+          description: Enlaces de relación
+          type: object
+          properties:
+            trabajos:
+              $ref: './Link.yml#/Link'
+            self:
+              $ref: './Link.yml#/Link'
 
     Trabajo:
       type: object
