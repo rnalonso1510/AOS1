@@ -204,7 +204,31 @@ components:
               $ref: './Link.yml#/Link'
             self:
               $ref: './Link.yml#/Link'
-
+      example:
+        Factura:
+        - facturaId: 1
+          idCliente: 1
+          Conceptos: 
+            Trabajo:
+              - trabajoId: 11
+                idVehiculo: 3
+                idCliente: 1
+                nombre: Cambio de ruedas 
+                descripcion: Cambio de ruedas debido al desgaste
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/2/1"
+                fechaFin: "2022/2/1"
+              - trabajoId: 12
+                idVehiculo: 3
+                idCliente: 1
+                nombre: Cambio de aceite 
+                descripcion: El aceite ha sido cambiado por otro nuevo para evitar problemas en el motor. 
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/2/1"
+                fechaFin: "2022/2/1"
+          fechaEmision: "2022/2/2"
+          importe: 200
+        
     Trabajo:
       type: object
       description: Añadir descripción 
@@ -339,6 +363,77 @@ components:
                 description: ID de la factura que se desea borrar
                 type: integer
   examples:
+    facturas:
+      value:
+        - facturaId: 1
+          idCliente: 1
+          Conceptos: 
+            Trabajo:
+              - trabajoId: 11
+                idVehiculo: 3
+                idCliente: 1
+                nombre: Cambio de ruedas 
+                descripcion: Cambio de ruedas debido al desgaste
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/2/1"
+                fechaFin: "2022/2/1"
+              - trabajoId: 12
+                idVehiculo: 3
+                idCliente: 1
+                nombre: Cambio de aceite 
+                descripcion: El aceite ha sido cambiado por otro nuevo para evitar problemas en el motor. 
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/2/1"
+                fechaFin: "2022/2/1"
+          fechaEmision: "2022/2/2"
+          importe: 200
+
+        - facturaId: 2
+          idCliente: 2
+          Conceptos: 
+            Trabajo:
+              - trabajoId: 14
+                idVehiculo: 5
+                idCliente: 2
+                nombre: Cambio de bombillas 
+                descripcion: Se han sustituido las bombillas que estaban fundidas en el vehículo.
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/3/1"
+                fechaFin: "2022/3/1"
+              - trabajoId: 15
+                idVehiculo: 5
+                idCliente: 2
+                nombre: Sustitución de brazos de suspensión 
+                descripcion: Los brazos han sido sustituidos por otros nuevos para mejorar la suspensión del vehículo. 
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/3/2"
+                fechaFin: "2022/3/2"
+          fechaEmision: "2022/3/2"
+          importe: 500
+
+        - facturaId: 3
+          idCliente: 3
+          Conceptos: 
+            Trabajo:
+              - trabajoId: 20
+                idVehiculo: 6
+                idCliente: 3
+                nombre: Cambio de frenos 
+                descripcion: Los discos de freno estaban desgastados y han sido sustituidos por otros nuevos
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/3/5"
+                fechaFin: "2022/3/5"
+              - trabajoId: 21
+                idVehiculo: 6
+                idCliente: 3
+                nombre: Freno de mano destensado
+                descripcion: Se ha procedido a tensar de nuevo el freno de mano  
+                estadoTrabajo: Terminado
+                fechaInicio: "2022/3/5"
+                fechaFin: "2022/3/5"
+          fechaEmision: "2022/3/5"
+          importe: 350
+
     response-http-400:
         value:
           type: https://httpstatuses.com/400
