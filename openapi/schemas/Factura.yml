@@ -1,0 +1,33 @@
+Factura:
+      type: object
+      description: Contenido de una factura
+      properties:
+        facturaId:
+          description: Identificador de la factura
+          readOnly: True
+          type: integer
+          format: int32
+        idCliente:
+          description: ID del cliente propietario del vehículo
+          type: integer
+          format: int32
+        Conceptos:
+          description: Contenido de una factura
+          type: array
+          items:
+            $ref: './Trabajo.yml#/Trabajo'
+        fechaEmision:
+          description: Fecha de emisión de la factura
+          type: string
+          format: date-time
+        importe:
+          type: integer
+          format: int32
+        links:
+          description: Enlaces de relación
+          type: object
+          properties:
+            trabajos:
+              $ref: './Link.yml#/Link'
+            self:
+              $ref: './Link.yml#/Link'      

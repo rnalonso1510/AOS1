@@ -49,8 +49,11 @@ paths:
                     description: Array de facturas
                     type: array
                     items:
-                      $ref: '#/components/schemas/Factura'
-    post: 
+                      $ref: './schemas/Factura.yml#/Factura'
+              examples:
+                facturaExamples:
+                  $ref: './schemas/examples.yml#/examples/facturas'
+    post:  
       tags: 
         - 'Facturas'
       summary: Crea una factura.
@@ -82,7 +85,7 @@ paths:
           description: '`Allow` header &lt;Response body is empty&gt;'
   /facturas/{id}: 
     parameters:
-      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/idfactura'
     get:
       tags:
         - 'Facturas'
@@ -98,7 +101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Factura'
+                $ref: './schemas/Factura.yml#/Factura'
     put:
       tags:
         - 'Facturas'
@@ -111,7 +114,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Factura'
+                $ref: './schemas/Factura.yml#/Factura'
       security:
         - MiWApiSecurity:
             - writer
@@ -161,7 +164,7 @@ paths:
                       description: Factura array
                       type: array
                       items:
-                        $ref: '#/components/parameters/id'
+                        $ref: '#/components/parameters/idfactura'
 
 
 
@@ -170,104 +173,7 @@ components:
   securitySchemes: {}
   schemas:
     HTTP_Problem:
-      $ref: './schemas/http_problem.yml'
-    Factura:
-      type: object
-      description: Contenido de una factura
-      properties:
-        facturaId:
-          description: Identificador de la factura
-          readOnly: True
-          type: integer
-          format: int32
-        idCliente:
-          description: ID del cliente propietario del vehículo
-          type: integer
-          format: int32
-        Conceptos:
-          description: Contenido de una factura
-          type: array
-          items:
-            $ref: '#/components/schemas/Trabajo'
-        fechaEmision:
-          description: Fecha de emisión de la factura
-          type: string
-          format: date-time
-        importe:
-          type: integer
-          format: int32
-        links:
-          description: Enlaces de relación
-          type: object
-          properties:
-            trabajos:
-              $ref: './Link.yml#/Link'
-            self:
-              $ref: './Link.yml#/Link'
-      example:
-        Factura:
-        - facturaId: 1
-          idCliente: 1
-          Conceptos: 
-            Trabajo:
-              - trabajoId: 11
-                idVehiculo: 3
-                idCliente: 1
-                nombre: Cambio de ruedas 
-                descripcion: Cambio de ruedas debido al desgaste
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/2/1"
-                fechaFin: "2022/2/1"
-              - trabajoId: 12
-                idVehiculo: 3
-                idCliente: 1
-                nombre: Cambio de aceite 
-                descripcion: El aceite ha sido cambiado por otro nuevo para evitar problemas en el motor. 
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/2/1"
-                fechaFin: "2022/2/1"
-          fechaEmision: "2022/2/2"
-          importe: 200
-        
-    Trabajo:
-      type: object
-      description: Añadir descripción 
-      properties:
-        trabajoId:
-          description: Identificador del trabajo
-          type: integer
-          format: int32
-        idVehiculo:
-          description: ID del vehículo sobre el que se reliza el trabajo
-          type: integer
-          format: int32
-        idCliente:
-          description: ID del cliente propietario del vehículo
-          type: integer
-          format: int32
-        nombre:
-          description: Nombre del tipo de trabajo
-          type: string
-        descripcion:
-          description: Descripción del trabajo
-          type: string
-        estadoTrabajo:
-          description: Posibles estados del trabajo [Creado, Planificado, Iniciado, Terminado]
-          type: string
-          enum:
-          - "Creado"
-          - "Planificado"
-          - "Iniciado"
-          - "Terminado"    
-        fechaInicio:
-          description: Fecha en la que se inicializa el trabajo
-          type: string
-          format: date-time
-        fechaFin:
-          description: Fecha en la que se finaliza el trabajo
-          type: string
-          format: date-time
-      x-last-modified: 1648662408321
+      $ref: './schemas/http_problem.yml' 
   headers: {}
   responses:
     '200':
@@ -276,7 +182,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Factura'
+            $ref: './schemas/Factura.yml#/Factura'
     Response_404:
       description: '`NOT FOUND`: recurso no disponible'
       content:
@@ -285,7 +191,7 @@ components:
             $ref: '#/components/schemas/HTTP_Problem'
           examples:
             response-http-404:
-              $ref: '#/components/examples/response-http-404'
+              $ref: './schemas/examples.yml#/examples/response-http-404'
     Response_412:
       description: '`PRECONDITION FAILED`: El ETag proporcionado no está actualizado'
       content:
@@ -294,7 +200,7 @@ components:
             $ref: '#/components/schemas/HTTP_Problem'
           examples:
             response-http-412:
-              $ref: '#/components/examples/response-http-412'
+              $ref: './schemas/examples.yml#/examples/response-http-412'
     Response_422:
       description: >
         `UNPROCESSABLE ENTITY`
@@ -305,9 +211,9 @@ components:
             $ref: '#/components/schemas/HTTP_Problem'
           examples:
             response-http-422:
-              $ref: '#/components/examples/response-http-422'
+              $ref: './schemas/examples.yml#/examples/response-http-422'
   parameters:
-    id:
+    idfactura:
       in: path
       name: id
       description: |-
@@ -318,7 +224,9 @@ components:
         format: uuid
       x-last-modified: 1648661309447
       required: true
-      deprecated: false
+      schema:
+        type: integer
+        pattern: ^\d+$
     idCliente:
       in: path
       name: idCliente
@@ -329,7 +237,9 @@ components:
         format: uuid
       x-last-modified: 1648661309447
       required: true
-      deprecated: false
+      schema:
+        type: integer
+        pattern: ^\d+$
   requestBodies:
     FacturaRequestBody:
       description: 'Datos de la `Factura`'
@@ -338,7 +248,7 @@ components:
         application/json:
           schema:
             type: object
-            $ref: '#/components/schemas/Factura'
+            $ref: './schemas/Factura.yml#/Factura'
     deleteFacturaRequestBody:
       description: 'Informacion para el borrado de la `Factura`'
       required: true
@@ -362,107 +272,3 @@ components:
               idFactura:
                 description: ID de la factura que se desea borrar
                 type: integer
-  examples:
-    facturas:
-      value:
-        - facturaId: 1
-          idCliente: 1
-          Conceptos: 
-            Trabajo:
-              - trabajoId: 11
-                idVehiculo: 3
-                idCliente: 1
-                nombre: Cambio de ruedas 
-                descripcion: Cambio de ruedas debido al desgaste
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/2/1"
-                fechaFin: "2022/2/1"
-              - trabajoId: 12
-                idVehiculo: 3
-                idCliente: 1
-                nombre: Cambio de aceite 
-                descripcion: El aceite ha sido cambiado por otro nuevo para evitar problemas en el motor. 
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/2/1"
-                fechaFin: "2022/2/1"
-          fechaEmision: "2022/2/2"
-          importe: 200
-
-        - facturaId: 2
-          idCliente: 2
-          Conceptos: 
-            Trabajo:
-              - trabajoId: 14
-                idVehiculo: 5
-                idCliente: 2
-                nombre: Cambio de bombillas 
-                descripcion: Se han sustituido las bombillas que estaban fundidas en el vehículo.
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/3/1"
-                fechaFin: "2022/3/1"
-              - trabajoId: 15
-                idVehiculo: 5
-                idCliente: 2
-                nombre: Sustitución de brazos de suspensión 
-                descripcion: Los brazos han sido sustituidos por otros nuevos para mejorar la suspensión del vehículo. 
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/3/2"
-                fechaFin: "2022/3/2"
-          fechaEmision: "2022/3/2"
-          importe: 500
-
-        - facturaId: 3
-          idCliente: 3
-          Conceptos: 
-            Trabajo:
-              - trabajoId: 20
-                idVehiculo: 6
-                idCliente: 3
-                nombre: Cambio de frenos 
-                descripcion: Los discos de freno estaban desgastados y han sido sustituidos por otros nuevos
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/3/5"
-                fechaFin: "2022/3/5"
-              - trabajoId: 21
-                idVehiculo: 6
-                idCliente: 3
-                nombre: Freno de mano destensado
-                descripcion: Se ha procedido a tensar de nuevo el freno de mano  
-                estadoTrabajo: Terminado
-                fechaInicio: "2022/3/5"
-                fechaFin: "2022/3/5"
-          fechaEmision: "2022/3/5"
-          importe: 350
-
-    response-http-400:
-        value:
-          type: https://httpstatuses.com/400
-          title: BAD REQUEST
-          status: 400
-          detail: El servidor no puede procesar la peticion debido a que se ha percibido un error en el cliente.
-          instance: about:blank
-    response-http-404:
-        value:
-          type: https://httpstatuses.com/404
-          title: NOT FOUND
-          status: 404
-          detail: El recurso solicitado no está disponible.
-          instance: about:blank
-    response-http-412:
-        value:
-          type: https://httpstatuses.com/412
-          title: PRECONDITION FAILED
-          status: 412
-          detail: El ETag proporcionado no está actualizado
-          instance: about:blank
-
-    response-http-422:
-        value:
-          type: https://httpstatuses.com/422
-          title: UNPROCESSABLE ENTITY
-          status: 422
-          detail: Falta alguno de los atributos obligatorios (nombre, empresa, version o año_publicación)
-          instance: about:blank
-
-
-
