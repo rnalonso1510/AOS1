@@ -165,10 +165,6 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/parameters/idfactura'
-
-
-
-
 components:
   securitySchemes: {}
   schemas:
