@@ -23,6 +23,14 @@
                   fechaFin: "2022/2/1"
             fechaEmision: "2022/2/2"
             importe: 200
+            links:
+              clientes:
+                href: /api/v1/clientes
+                rel: Clientes
+              trabajos:
+                href: /api/v1/trabajos/
+              self:
+                href: /api/v1/facturas/1
 
           - facturaId: 2
             idCliente: 2
@@ -46,7 +54,14 @@
                   fechaFin: "2022/3/2"
             fechaEmision: "2022/3/2"
             importe: 500
-
+            links:
+              clientes:
+                href: /api/v1/clientes
+                rel: Clientes
+              trabajos:
+                href: /api/v1/trabajos/
+              self:
+                href: /api/v1/facturas/2
           - facturaId: 3
             idCliente: 3
             Conceptos: 
@@ -69,6 +84,14 @@
                   fechaFin: "2022/3/5"
             fechaEmision: "2022/3/5"
             importe: 350
+            links:
+              clientes:
+                href: /api/v1/clientes
+                rel: Clientes
+              trabajos:
+                href: /api/v1/trabajos/
+              self:
+                href: /api/v1/facturas/3
 
   response-http-400:
           value:
