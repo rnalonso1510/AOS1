@@ -35,5 +35,5 @@ Trabajo:
           format: date-time
         importe:
           description: Importe del trabajo
-          type: integer
-          format: float32
+          type: number
+          format: double

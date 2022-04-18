@@ -22,13 +22,15 @@ Factura:
           format: date-time
         importe:
           description: Importe total de la factura. Suma de todos los importes de cada concepto
-          type: integer
-          format: float32
+          type: number
+          format: double
         links:
           description: Enlaces de relación
           type: object
           properties:
+            clientes:
+              $ref: './Link.yml#/Link'
             trabajos:
               $ref: './Link.yml#/Link'
             self:
-              $ref: './Link.yml#/Link'      
+              $ref: './Link.yml#/Link'     
