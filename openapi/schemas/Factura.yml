@@ -8,11 +8,11 @@ Factura:
           type: integer
           format: int32
         idCliente:
-          description: ID del cliente propietario del vehículo
+          description: Identificador del cliente a facturar
           type: integer
           format: int32
         Conceptos:
-          description: Contenido de una factura
+          description: Trabajos pertenecientes a la factura
           type: array
           items:
             $ref: './Trabajo.yml#/Trabajo'
@@ -21,8 +21,9 @@ Factura:
           type: string
           format: date-time
         importe:
+          description: Importe total de la factura. Suma de todos los importes de cada concepto
           type: integer
-          format: int32
+          format: float32
         links:
           description: Enlaces de relación
           type: object

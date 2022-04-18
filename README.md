@@ -8,6 +8,12 @@ El repositorio contiene:
 
 ## Consideraciones de diseño
 
+Una factura es una relación entre un usuario y los trabajos solicitados terminados. Por ello necesitamos conocer el identificador de usuario, así como la información relevante del trabajo (vehículo, trabajo realizado, fecha, importe).
+
+- operaciones por facturas
+- consultar facturas de un cliente. El detalle de cada factura se puede consultar una vez conocido su id.
+
+
 
 ## Despliegue
 

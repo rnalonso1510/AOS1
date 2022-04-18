@@ -5,11 +5,11 @@ info:
   description: "Asignatura AOS: grupo 8"
   license:
     name: AOSGrupo8
-    url: 'aaa'
+    url: 'aos.com'
   contact:
     name: Arquitecturas Orientadas a Servicios
-    url: 'aaa'
-    email: aaaaa@aaa.com
+    url: 'aos'
+    email: aosgrupo8@aos.com
 servers:
   - url: '{schema}://{server}:{port}/{basePath}'
     description: Servidor local
@@ -35,7 +35,7 @@ paths:
       tags:
         - 'Facturas'
       summary: Devuelve todas las facturas existentes
-      description: Devuelve todas las facturas del sistema
+      description: Devuelve todas las facturas existentes del sistema
       operationId: api_facturas_cget
       responses:
         '200':
@@ -53,6 +53,12 @@ paths:
               examples:
                 facturaExamples:
                   $ref: './schemas/examples.yml#/examples/facturas'
+        400:
+          $ref: '#/components/responses/Response_400'
+        404:
+          $ref: '#/components/responses/Response_404'
+        500:
+          $ref: '#/components/responses/Response_500'
     post:  
       tags: 
         - 'Facturas'
@@ -66,7 +72,7 @@ paths:
         $ref: '#/components/requestBodies/FacturaRequestBody'
       responses:
         '201':
-          description: '`Created`: Factura created'
+          description: '`Created`: Factura creada'
           links:
             GetFacturas:
               operationRef: '#/'
@@ -74,6 +80,14 @@ paths:
                 idCliente: '$response.body#/idCliente'
               description: >
                 El `id` devuelto por la petición puede ser usado como `facturaId` en `GET /facturas/{id]`
+        400:
+          $ref: '#/components/responses/Response_400'
+        412:
+          $ref: '#/components/responses/Response_412'
+        422:
+          $ref: '#/components/responses/Response_422'
+        500:
+          $ref: '#/components/responses/Response_500'
     options:
       tags:
         - 'Facturas'
@@ -97,17 +111,25 @@ paths:
             - reader
       responses:
         '200':
-          description: Devolvemos un objeto del tipo factura
+          description: Devolvemos una factura detallada
           content:
             application/json:
               schema:
                 $ref: './schemas/Factura.yml#/Factura'
+        404:
+          $ref: '#/components/responses/Response_404'
+        412:
+          $ref: '#/components/responses/Response_412'
+        500:
+          $ref: '#/components/responses/Response_500'  
     put:
       tags:
         - 'Facturas'
-      summary: Updates 
-      description: Actualiza la factura tras pasar su `facturaId`.
+      summary: Actualiza una factura determinada especificando su identificador y los campos a actualizar 
+      description: Actualiza una factura determinada especificando su id.
       operationId: api_facturas_put
+      requestBody:
+        $ref: '#/components/requestBodies/updateFacturaRequestBody'
       responses:
         '200':
           description: Factura
@@ -115,6 +137,16 @@ paths:
             application/json:
               schema:
                 $ref: './schemas/Factura.yml#/Factura'
+        404:
+          $ref: '#/components/responses/Response_404'
+        412:
+          $ref: '#/components/responses/Response_412'
+        413:
+          $ref: '#/components/responses/Response_413'
+        422:
+          $ref: '#/components/responses/Response_422'
+        500:
+          $ref: '#/components/responses/Response_500'  
       security:
         - MiWApiSecurity:
             - writer
@@ -122,7 +154,7 @@ paths:
       tags:
         - 'Facturas'
       summary: Elimina el recurso Factura.
-      description: Elimina el recurso Factura tras especificar su `facturaId`.
+      description: Elimina el recurso Factura tras especificar su `id factura`.
       operationId: api_facturas_delete
       security:
         - MiWApiSecurity:
@@ -130,6 +162,16 @@ paths:
       responses:
         '204':
           description: Factura deleted &lt;Response body is empty&gt;
+        404:
+          $ref: '#/components/responses/Response_404'
+        412:
+          $ref: '#/components/responses/Response_412'
+        413:
+          $ref: '#/components/responses/Response_413'
+        422:
+          $ref: '#/components/responses/Response_422'
+        500:
+          $ref: '#/components/responses/Response_500'  
     options:
       tags:
         - 'Facturas'
@@ -147,7 +189,7 @@ paths:
         tags:
           - 'Clientes'
         summary: Devuelve todas las facturas de un cliente.
-        description: Dado un idCliente, devuelve todas sus facturas.
+        description: Devuelve todas las facturas de un cliente.
         operationId: api_facturas_get
         security:
           - MiWApiSecurity:
@@ -165,6 +207,12 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/parameters/idfactura'
+          404:
+            $ref: '#/components/responses/Response_404'
+          412:
+            $ref: '#/components/responses/Response_412'
+          500:
+            $ref: '#/components/responses/Response_500' 
 components:
   securitySchemes: {}
   schemas:
@@ -173,14 +221,22 @@ components:
   headers: {}
   responses:
     '200':
-      description: Operación exitosa
-      x-last-modified: 1648661433969
+      description: Operación realizada con éxito
       content:
         application/json:
           schema:
             $ref: './schemas/Factura.yml#/Factura'
+    Response_400:
+      description: 'BAD REQUEST'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-400:
+              $ref: './schemas/examples.yml#/examples/response-http-400'
     Response_404:
-      description: '`NOT FOUND`: recurso no disponible'
+      description: 'NOT FOUND'
       content:
         application/problem+json:
           schema:
@@ -189,7 +245,7 @@ components:
             response-http-404:
               $ref: './schemas/examples.yml#/examples/response-http-404'
     Response_412:
-      description: '`PRECONDITION FAILED`: El ETag proporcionado no está actualizado'
+      description: 'PRECONDITION FAILED'
       content:
         application/problem+json:
           schema:
@@ -197,10 +253,27 @@ components:
           examples:
             response-http-412:
               $ref: './schemas/examples.yml#/examples/response-http-412'
+    Response_413:
+      description: 'PAYLOAD TOO LARGE'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-413:
+              $ref: './schemas/examples.yml#/examples/response-http-413'
+    Response_414:
+      description: 'REQUEST URI TOO LONG'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-414:
+              $ref: './schemas/examples.yml#/examples/response-http-414'
     Response_422:
       description: >
-        `UNPROCESSABLE ENTITY`
-        Falta alguno de los atributos obligatorios (`nombre`, `empresa`, `version` o `año_publicación`)
+        The server understands the content type of the request entity (hence a 415 Unsupported Media Type status code is inappropriate), and the syntax of the request entity is correct (thus a 400 Bad Request status code is inappropriate) but was unable to process the contained instructions.
       content:
         application/problem+json:
           schema:
@@ -208,6 +281,16 @@ components:
           examples:
             response-http-422:
               $ref: './schemas/examples.yml#/examples/response-http-422'
+    Response_500:
+      description: >
+        The server encountered an unexpected condition that prevented it from fulfilling the request.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: './schemas/examples.yml#/examples/response-http-500'
   parameters:
     idfactura:
       in: path
@@ -218,7 +301,6 @@ components:
          La API responde con la factura.
         type: number
         format: uuid
-      x-last-modified: 1648661309447
       required: true
       schema:
         type: integer
@@ -231,7 +313,6 @@ components:
          ID del cliente. 
         type: number
         format: uuid
-      x-last-modified: 1648661309447
       required: true
       schema:
         type: integer
@@ -264,7 +345,4 @@ components:
         application/json:
           schema:
             type: object
-            properties:
-              idFactura:
-                description: ID de la factura que se desea borrar
-                type: integer
+            $ref: './schemas/Factura.yml#/Factura'
