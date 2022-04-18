@@ -79,7 +79,7 @@ paths:
               parameters:
                 idCliente: '$response.body#/idCliente'
               description: >
-                El `id` devuelto por la petición puede ser usado como `facturaId` en `GET /facturas/{id]`
+                El `id` devuelto por la petición puede ser usado como `facturaId` en `GET /facturas/{id}`
         400:
           $ref: '#/components/responses/Response_400'
         412:
