@@ -31,9 +31,10 @@
                 rel: Clientes
               trabajos:
                 href: /api/v1/trabajos/
+                rel: Trabajos
               self:
                 href: /api/v1/facturas/1
-
+                rel: Facturas
           - facturaId: 2
             idCliente: 2
             Conceptos: 
@@ -98,7 +99,6 @@
                 href: /api/v1/trabajos/
               self:
                 href: /api/v1/facturas/3
-
   response-http-400:
           value:
             type: https://httpstatuses.com/400

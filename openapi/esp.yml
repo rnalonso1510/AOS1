@@ -49,7 +49,7 @@ paths:
                     description: Array de facturas
                     type: array
                     items:
-                      $ref: './schemas/Factura.yml#/Factura'
+                      $ref: './schemas/Factura.yml'
               examples:
                 facturaExamples:
                   $ref: './schemas/examples.yml#/examples/facturas'
@@ -115,7 +115,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/Factura.yml#/Factura'
+                $ref: './schemas/Factura.yml'
         404:
           $ref: '#/components/responses/Response_404'
         412:
@@ -136,7 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas/Factura.yml#/Factura'
+                $ref: './schemas/Factura.yml'
         404:
           $ref: '#/components/responses/Response_404'
         412:
@@ -181,10 +181,9 @@ paths:
       responses:
         '204':
           description: '`Allow` header &lt;Response body is empty&gt;'         
-  /clientes/{id}/facturas/:
+  /clientes/{idCliente}/facturas/:
     parameters:
     - $ref: '#/components/parameters/idCliente'
-
     get:
         tags:
           - 'Clientes'
@@ -206,7 +205,7 @@ paths:
                       description: Factura array
                       type: array
                       items:
-                        $ref: '#/components/parameters/idfactura'
+                         $ref: './schemas/Factura.yml'                    
           404:
             $ref: '#/components/responses/Response_404'
           412:
@@ -218,6 +217,10 @@ components:
   schemas:
     HTTP_Problem:
       $ref: './schemas/http_problem.yml' 
+    Factura:
+      $ref: './schemas/Factura.yml'
+    Trabajo:
+      $ref: './schemas/Trabajo.yml'
   headers: {}
   responses:
     '200':
@@ -225,7 +228,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: './schemas/Factura.yml#/Factura'
+            $ref: './schemas/Factura.yml'
     Response_400:
       description: 'BAD REQUEST'
       content:
@@ -325,7 +328,7 @@ components:
         application/json:
           schema:
             type: object
-            $ref: './schemas/Factura.yml#/Factura'
+            $ref: './schemas/FacturaRB.yml'
     deleteFacturaRequestBody:
       description: 'Informacion para el borrado de la `Factura`'
       required: true
@@ -345,4 +348,4 @@ components:
         application/json:
           schema:
             type: object
-            $ref: './schemas/Factura.yml#/Factura'
+            $ref: './schemas/FacturaRB.yml'

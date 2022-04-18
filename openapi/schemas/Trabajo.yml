@@ -1,4 +1,4 @@
-Trabajo:
+# Trabajo:
       type: object
       description: Trabajos pertenecientes a la factura
       properties:
@@ -26,14 +26,14 @@ Trabajo:
           enum:
           - "Terminado"    
         fechaInicio:
-          description: Fecha inicio del trabajo
+          description: Fecha inicio
           type: string
           format: date-time
         fechaFin:
-          description: Fecha fin del trabajo
+          description: Fecha fin 
           type: string
           format: date-time
         importe:
-          description: Importe del trabajo
+          description: Importe
           type: number
           format: double

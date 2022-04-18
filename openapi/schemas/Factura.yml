@@ -1,4 +1,4 @@
-Factura:
+# Factura:
       type: object
       description: Contenido de una factura
       properties:
@@ -15,13 +15,13 @@ Factura:
           description: Trabajos pertenecientes a la factura
           type: array
           items:
-            $ref: './Trabajo.yml#/Trabajo'
+            $ref: './Trabajo.yml'
         fechaEmision:
           description: Fecha de emisión de la factura
           type: string
           format: date-time
         importe:
-          description: Importe total de la factura. Suma de todos los importes de cada concepto
+          description: Importe total de la factura. Suma de todos los importes.
           type: number
           format: double
         links:
@@ -29,8 +29,8 @@ Factura:
           type: object
           properties:
             clientes:
-              $ref: './Link.yml#/Link'
+              $ref: './Link.yml#/Link' 
             trabajos:
-              $ref: './Link.yml#/Link'
+              $ref: './Link.yml#/Link' 
             self:
-              $ref: './Link.yml#/Link'     
+              $ref: './Link.yml#/Link'    
