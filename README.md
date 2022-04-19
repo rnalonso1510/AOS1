@@ -57,8 +57,8 @@ Desde SwaggerUI podremos realizar todas las peticiones necesarias para probar el
 
 Para la simulación del servicio se crean 3 contenedores:
 
-1.**Reverse Proxy** Servidor encargado de resolver las rutas cuando se consulte a nuestro servidor. Es la puerta de entrada a nuestra aplicación
+1.**Reverse Proxy** Servidor encargado de resolver las rutas cuando se consulte a nuestro servidor. Es la puerta de entrada a nuestra aplicación.
 
-2.**Backend**:  Simula la funcionalidad del servicio mediante Spotlight Prism sin necesidad de implementación
+2.**Backend**:  Simula la funcionalidad del servicio mediante Spotlight Prism sin necesidad de implementación.
 
-3.**Frontend**: Interfaz de Swagger-UI desde la cual realizar las peticiones de prueba y consultar la especificación de la API en OpenAPI3
+3.**Frontend**: Interfaz de Swagger-UI desde la cual realizar las peticiones de prueba y consultar la especificación de la API en OpenAPI3.
