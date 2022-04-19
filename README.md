@@ -8,9 +8,10 @@ El repositorio contiene:
 
 ## Consideraciones de diseño
 
-- Una factura es una relación entre un usuario y los trabajos solicitados terminados. Por ello, necesitamos conocer el identificador de usuario, así como la información relevante del trabajo (vehículo, trabajo realizado, fecha, importe).
+- Una factura es una relación entre un usuario y los trabajos solicitados (conceptos) terminados. Por ello, necesitamos conocer el identificador de usuario, así como la información relevante del trabajo (cliente, vehículo, trabajo realizado, fechas e importe).
+La información correspondiente al trabajo será facilitada desde dicho servicio cuando se realicen las llamadas de creación o actualización.
 
-- Al crear una factura (POST), a esta se le asigna un identificador que servirá para realizar el resto de peticiones, ya sea modificación, eliminación o consulta individual.
+- Al crear una factura (POST), a esta se le asigna un identificador que servirá para realizar el resto de peticiones, ya sea modificación, eliminación o consulta individual, devolviendo esta última petición como resultado de la creación.
 Se permite consultar todas las facturas, para lo que no hará falta especificar ningún identificador.
 
 - Aparte de por identificador de factura, permitimos la consulta de todas las facturas pertenecientes a un cliente, por medio de su identificador de cliente.

@@ -221,6 +221,8 @@ components:
       $ref: './schemas/Factura.yml'
     Trabajo:
       $ref: './schemas/Trabajo.yml'
+    FacturaRequestBody:
+      $ref: './schemas/FacturaRB.yml'
   headers: {}
   responses:
     '200':
