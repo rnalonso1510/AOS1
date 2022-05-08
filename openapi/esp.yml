@@ -147,9 +147,6 @@ paths:
       summary: Elimina el recurso Factura.
       description: Elimina el recurso Factura tras especificar su `id factura`.
       operationId: api_facturas_delete
-      security:
-        - MiWApiSecurity:
-            - writer
       responses:
         '204':
           description: Factura deleted &lt;Response body is empty&gt;
@@ -181,9 +178,6 @@ paths:
         summary: Devuelve todas las facturas de un cliente.
         description: Devuelve todas las facturas de un cliente.
         operationId: api_facturas_get
-        security:
-          - MiWApiSecurity:
-              - reader
         responses:
           '200':
             description: Array de facturas

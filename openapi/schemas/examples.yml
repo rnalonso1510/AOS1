@@ -27,14 +27,14 @@
             importe: 435.99
             links:
               clientes:
-                href: /api/v1/clientes
-                rel: Clientes
+                href: /api/v1/clientes/1
+                rel: obtenerCliente
               trabajos:
                 href: /api/v1/trabajos/
-                rel: Trabajos
+                rel: obtenerTrabajo
               self:
                 href: /api/v1/facturas/1
-                rel: Facturas
+                rel: obtenerFactura modificarFactura eliminarFactura
           - facturaId: 2
             idCliente: 2
             Conceptos: 
@@ -62,11 +62,13 @@
             links:
               clientes:
                 href: /api/v1/clientes
-                rel: Clientes
+                rel: obtenerCliente
               trabajos:
                 href: /api/v1/trabajos/
+                rel: obtenerTrabajo
               self:
                 href: /api/v1/facturas/2
+                rel: obtenerFactura modificarFactura eliminarFactura
           - facturaId: 3
             idCliente: 3
             Conceptos: 
@@ -94,11 +96,13 @@
             links:
               clientes:
                 href: /api/v1/clientes
-                rel: Clientes
+                rel: obtenerCliente
               trabajos:
                 href: /api/v1/trabajos/
+                rel: obtenerTrabajo
               self:
                 href: /api/v1/facturas/3
+                rel: obtenerFactura modificarFactura eliminarFactura
   response-http-400:
           value:
             type: https://httpstatuses.com/400
