@@ -65,9 +65,6 @@ paths:
       summary: Crea una factura.
       description: Crea una nueva factura
       operationId: api_facturas_post
-      security:
-        - MiWApiSecurity:
-            - writer
       requestBody:
         $ref: '#/components/requestBodies/FacturaRequestBody'
       responses:
