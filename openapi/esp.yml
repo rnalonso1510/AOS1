@@ -103,9 +103,6 @@ paths:
       summary: Devuelve una factura tras especificar su ID.
       description: Devuelve una factura tras especificar su `ID`.
       operationId: api_facturas_get
-      security:
-        - MiWApiSecurity:
-            - reader
       responses:
         '200':
           description: Devolvemos una factura detallada
@@ -144,9 +141,6 @@ paths:
           $ref: '#/components/responses/Response_422'
         500:
           $ref: '#/components/responses/Response_500'  
-      security:
-        - MiWApiSecurity:
-            - writer
     delete:
       tags:
         - 'Facturas'
