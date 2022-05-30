@@ -41,7 +41,7 @@ En MacOS:
 
 Para el funcionamiento del comando `docker-compose up` es imprescindible estar situados en la carpeta correspondiente al repositorio descargado.
 
-Para ello escribimos `cd ruta/proeycto` en el terminal de nuestro sistema.
+Para ello escribimos `cd ruta/procto` en el terminal de nuestro sistema.
 
 Podemos listar los ficheros utilizando `dir` o `ls` para verificar que vemos el fichero  `docker-composse.yml`
 

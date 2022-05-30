@@ -3,8 +3,11 @@ from typing import List,Optional
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
-from database import SessionLocal, engine
+import bbdd.models as models
+import schemas
+from bbdd.database import SessionLocal, engine
+import crud as crud
+
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -31,7 +34,7 @@ async def read_item(item_id: int, q: Optional[str] = None):
 async def read_item(factura_id: int, q: Optional[str] = None):
     return {"factura_id":factura_id}
 
-
+@app.post("/facturas/")
 @app.post("/clientes/", response_model=schemas.Cliente)
 def create_user(user: schemas.Cliente, db: Session = Depends(get_db)):
     db_user = crud.get_Cliente(db, Cliente_id=user.id)
@@ -43,4 +46,6 @@ def create_user(user: schemas.Cliente, db: Session = Depends(get_db)):
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_clients(db, skip=skip, limit=limit)
     return users
+
+
   

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-
-import models, schemas
+import bbdd.models as models
+import schemas
 
 
 def get_Cliente(db: Session, Cliente_id: int):
