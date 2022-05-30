@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+
+  facturas:
+    image: api
+    ports: 
+      - "81:80"
+    networks:
+        - taller_api
+  clientes:
+    image: api
+    ports: 
+      - "82:80"
+    networks:
+        - taller_api
+  vehiculos:
+    image: api
+    ports: 
+      - "83:80"
+    networks:
+        - taller_api
+  trabajos:
+    image: api
+    ports: 
+      - "84:80"
+    networks:
+        - taller_api
+  notificaciones:
+    image: api
+    ports: 
+      - "85:80"
+    networks:
+        - taller_api
+  logs:
+    image: api
+    ports: 
+      - "86:80"
+    networks:
+        - taller_api
+
+networks:
+  taller_api:
