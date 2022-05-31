@@ -1,3 +1,6 @@
+from datetime import date
+import string
+from tokenize import String
 from typing import List, Optional
 
 from pydantic import BaseModel
@@ -32,3 +35,26 @@ class Cliente(ClienteBase):
 
     class Config:
         orm_mode = True
+
+
+class FacturaBase(BaseModel):
+    id : int
+    cliente_id : int
+    fecha_emision : str
+    importe_total : float
+
+class ConceptoBase(BaseModel):
+    id : int
+    importe: float
+
+class Concepto(ConceptoBase):
+    pass
+
+
+class Factura(FacturaBase):
+    conceptos : List[Concepto] = []
+    
+    class Config:
+        orm_mode = True
+class FacturaCreate(FacturaBase):
+    pass

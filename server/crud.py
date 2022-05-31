@@ -34,3 +34,23 @@ def create_Cliente_Vehiculo(db: Session, Vehiculo: schemas.VehiculoCreate, Clien
 
 def get_clients(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Cliente).offset(skip).limit(limit).all()
+
+
+def get_facturas(db: Session,skip: int=0,limit: int=100):
+    return db.query(models.Factura).offset(skip).limit(limit).all()
+
+def create_factura(db: Session, Factura: schemas.FacturaCreate,id: int):
+    db_factura = models.Factura(**Factura.dict())
+    db_concepto = models.FacturasConceptos(**db_factura.conceptos.dict())
+    db.add(db_concepto)
+    db.add(db_factura)
+
+    db.commit()
+    db.refresh(db_factura)
+    return db_factura
+
+def get_factura_by_id(db: Session,factura_id: int):
+    return db.query(models.Factura).filter(models.Factura.id == factura_id)
+
+def get_facturas_by_cliente_id(db: Session, cliente_id: int):
+    return db.query(models.Factura).filter(models.Factura.cliente_id==cliente_id)
