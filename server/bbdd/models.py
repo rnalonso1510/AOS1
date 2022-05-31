@@ -20,10 +20,10 @@ class Vehiculo(Base):
     id = Column(Integer, primary_key=True, index=True)
     cliente = Column(Integer, ForeignKey("clientes.id"))
     owner =     relationship("Cliente",back_populates="vehiculos")
-class Trabajo(Base):
-    __tablename__ = "trabajos"
-    id = Column(Integer,primary_key =True,index=True)
-    cliente_id = Column(Integer,ForeignKey("clientes.id"))
+
+
+
+
 
 class Factura(Base):
     __tablename__ = "facturas"

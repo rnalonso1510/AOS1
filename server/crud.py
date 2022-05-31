@@ -40,11 +40,16 @@ def get_facturas(db: Session,skip: int=0,limit: int=100):
     return db.query(models.Factura).offset(skip).limit(limit).all()
 
 def create_factura(db: Session, Factura: schemas.FacturaCreate,id: int):
+    
+    conceptos = Factura.conceptos
+    delattr(Factura,'conceptos')
     db_factura = models.Factura(**Factura.dict())
-    db_concepto = models.FacturasConceptos(**db_factura.conceptos.dict())
-    db.add(db_concepto)
+    
+    
     db.add(db_factura)
-
+    for c in conceptos:
+        db_concepto = models.FacturasConceptos(**c.dict())
+        db.add(db_concepto)
     db.commit()
     db.refresh(db_factura)
     return db_factura

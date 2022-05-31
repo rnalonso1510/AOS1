@@ -42,10 +42,16 @@ class FacturaBase(BaseModel):
     cliente_id : int
     fecha_emision : str
     importe_total : float
-
+    class Config:
+        orm_mode = True
 class ConceptoBase(BaseModel):
     id : int
+    concepto_id: int
     importe: float
+    factura_id: int
+
+    class Config:
+        orm_mode = True
 
 class Concepto(ConceptoBase):
     pass
@@ -53,8 +59,9 @@ class Concepto(ConceptoBase):
 
 class Factura(FacturaBase):
     conceptos : List[Concepto] = []
-    
-    class Config:
-        orm_mode = True
+
 class FacturaCreate(FacturaBase):
+
     pass
+
+    
