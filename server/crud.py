@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 import bbdd.models as models
 import schemas
+from fastapi.encoders import jsonable_encoder
 
 
 def get_Cliente(db: Session, Cliente_id: int):
@@ -59,3 +60,16 @@ def get_factura_by_id(db: Session,factura_id: int):
 
 def get_facturas_by_cliente_id(db: Session, cliente_id: int):
     return db.query(models.Factura).filter(models.Factura.cliente_id==cliente_id)
+
+def delete_factura(db: Session, id_factura: int):
+    db.query(models.Factura).filter(models.Factura.id == id_factura).delete()
+    db.commit()
+    return 0
+
+def update_factura(db: Session, Factura: schemas.Factura):
+    factura = models.Factura(db.query(models.Factura).filter(models.Factura.id == Factura.id))
+    update_factura = Factura.dict(exclude_unset=True)
+    updated_factura = factura.copy(update=update_factura)
+    db.commit()
+    return jsonable_encoder(updated_factura)
+    

@@ -45,6 +45,12 @@ def get_facturas_by_clienteid(cliente_id: int,db : Session = Depends(get_db)):
 def create_factura(factura: schemas.Factura, db: Session = Depends(get_db)):
     return crud.create_factura(db,factura,id=factura.cliente_id)
 
+@app.delete("/facturas/{id_factura}")
+def delete_factura(id_factura : int, db: Session = Depends(get_db)):
+    return crud.delete_factura(db,id_factura)
+@app.put("/facturas/",response_model=schemas.Factura)
+def update_factura(factura: schemas.Factura, db: Session= Depends(get_db)):
+    return crud.update_factura(db,factura)
 
 if __name__ == "__main__":
     uvicorn.run(app,host="0.0.0.0",port="8000")
