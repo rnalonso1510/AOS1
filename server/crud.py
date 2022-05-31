@@ -44,9 +44,7 @@ def create_factura(db: Session, Factura: schemas.FacturaCreate,id: int):
     
     conceptos = Factura.conceptos
     delattr(Factura,'conceptos')
-    db_factura = models.Factura(**Factura.dict())
-    
-    
+    db_factura = models.Factura(**Factura.dict())    
     db.add(db_factura)
     for c in conceptos:
         db_concepto = models.FacturasConceptos(**c.dict())
@@ -67,9 +65,14 @@ def delete_factura(db: Session, id_factura: int):
     return 0
 
 def update_factura(db: Session, Factura: schemas.Factura):
-    factura = models.Factura(db.query(models.Factura).filter(models.Factura.id == Factura.id))
-    update_factura = Factura.dict(exclude_unset=True)
-    updated_factura = factura.copy(update=update_factura)
-    db.commit()
-    return jsonable_encoder(updated_factura)
+    factura = db.query(models.Factura).filter(models.Factura.id == Factura.id).first()
+
+    if factura is not None:
+        update_factura = Factura.dict(exclude_unset=True)
+        updated_factura = factura.copy(update=update_factura)
+        
+        db.commit()
+        return jsonable_encoder(updated_factura)
+    else:
+        return None
     

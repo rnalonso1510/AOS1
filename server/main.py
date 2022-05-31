@@ -2,12 +2,10 @@ from typing import List,Optional
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-
 import bbdd.models as models
 import schemas
 from bbdd.database import SessionLocal, engine
 import crud as crud
-
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -19,7 +17,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 
 @app.get("/facturas/{factura_id}")
@@ -48,7 +45,8 @@ def create_factura(factura: schemas.Factura, db: Session = Depends(get_db)):
 @app.delete("/facturas/{id_factura}")
 def delete_factura(id_factura : int, db: Session = Depends(get_db)):
     return crud.delete_factura(db,id_factura)
-@app.put("/facturas/",response_model=schemas.Factura)
+
+@app.patch("/facturas/",response_model=schemas.Factura)
 def update_factura(factura: schemas.Factura, db: Session= Depends(get_db)):
     return crud.update_factura(db,factura)
 
