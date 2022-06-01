@@ -3,7 +3,7 @@ version: "3"
 services:
 
   facturas:
-    image: api
+    image: eloz/grupo8facturas:api
     ports: 
       - "81:80"
     networks:
@@ -15,9 +15,9 @@ services:
     networks:
         - taller_api
   vehiculos:
-    image: api
+    image: esteban23/gestionvehiculosaos:v1
     ports: 
-      - "83:80"
+      - "83:5000"
     networks:
         - taller_api
   trabajos:
@@ -38,6 +38,13 @@ services:
       - "86:80"
     networks:
         - taller_api
+  recambios:
+    image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
+    ports: 
+      - "87:8080"
+    networks:
+      - taller_api
+
 
 networks:
   taller_api:

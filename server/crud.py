@@ -1,6 +1,4 @@
 from http.client import HTTPException
-from turtle import update
-from grpc import StatusCode
 from sqlalchemy.orm import Session
 import bbdd.models as models
 import schemas
