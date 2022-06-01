@@ -3,13 +3,13 @@ version: "3"
 services:
 
   facturas:
-    image: eloz/grupo8facturas:api
+    image: eloz/grupo8facturas:latest
     ports: 
       - "81:80"
     networks:
         - taller_api
   clientes:
-    image: api
+    image: eloz/grupo8facturas:latest
     ports: 
       - "82:80"
     networks:
@@ -21,19 +21,19 @@ services:
     networks:
         - taller_api
   trabajos:
-    image: api
+    image: eloz/grupo8facturas:latest
     ports: 
       - "84:80"
     networks:
         - taller_api
   notificaciones:
-    image: api
+    image: eloz/grupo8facturas:latest
     ports: 
       - "85:80"
     networks:
         - taller_api
   logs:
-    image: api
+    image: eloz/grupo8facturas:latest
     ports: 
       - "86:80"
     networks:
@@ -41,7 +41,7 @@ services:
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 
-      - "87:8080"
+      - "87:4010"
     networks:
       - taller_api
 
