@@ -1,3 +1,6 @@
+from http.client import HTTPException
+from turtle import update
+from grpc import StatusCode
 from sqlalchemy.orm import Session
 import bbdd.models as models
 import schemas
@@ -69,10 +72,16 @@ def update_factura(db: Session, Factura: schemas.Factura):
 
     if factura is not None:
         update_factura = Factura.dict(exclude_unset=True)
-        updated_factura = factura.copy(update=update_factura)
-        
+        for key,value in update_factura.items():
+            setattr(factura,key,value)
+        db.add(factura)
+        if hasattr(factura,'conceptos'):
+            for c in factura.conceptos:
+                db_concepto = models.FacturasConceptos(**c.dict())
+                db.add(db_concepto)
         db.commit()
-        return jsonable_encoder(updated_factura)
+        db.refresh()
+        return jsonable_encoder(factura)
     else:
-        return None
+        return HTTPException()
     
