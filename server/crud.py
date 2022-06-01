@@ -69,16 +69,18 @@ def delete_factura(db: Session, id_factura: int):
 
 def update_factura(db: Session, Factura: schemas.Factura):
     factura = db.query(models.Factura).filter(models.Factura.id == Factura.id).first()
-
     if factura is not None:
         update_factura = Factura.dict(exclude_unset=True)
+      
+        if 'conceptos' in update_factura.keys():
+            conceptos = update_factura['conceptos']
+            update_factura.pop('conceptos',None)
         for key,value in update_factura.items():
             setattr(factura,key,value)
-        db.add(factura)
-        if hasattr(factura,'conceptos'):
-            for c in factura.conceptos:
-                db_concepto = models.FacturasConceptos(**c.dict())
-                db.add(db_concepto)
+        for c in conceptos:
+            db_concepto = models.FacturasConceptos(**c)
+            db.add(db_concepto)
+            db.commit()
         db.commit()
         db.refresh()
         return jsonable_encoder(factura)
