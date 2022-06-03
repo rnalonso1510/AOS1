@@ -32,12 +32,23 @@ services:
       - "85:80"
     networks:
         - taller_api
-  logs:
-    image: eloz/grupo8facturas:latest
-    ports: 
-      - "86:80"
-    networks:
-        - taller_api
+  logs-backend:
+        image: stoplight/prism:4
+        container_name: log_mocks
+        command: mock --cors -h 0.0.0.0 "/logs/openapi.yaml"
+        ports:
+          - 8081:4010
+        volumes:
+            - ./openapi_logs:/logs:ro
+  logs-frontend:
+        image: swaggerapi/swagger-ui:latest
+        container_name: logs_ui
+        ports:
+            - 8000:8080
+        environment:
+            SWAGGER_JSON: /logs/openapi.yaml
+        volumes:
+            - ./openapi_logs:/logs:ro
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 
