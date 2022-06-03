@@ -50,5 +50,6 @@ def delete_factura(id_factura : int, db: Session = Depends(get_db)):
 def update_factura(factura: schemas.Factura, db: Session= Depends(get_db)):
     return crud.update_factura(db,factura)
 
+
 if __name__ == "__main__":
     uvicorn.run(app,host="0.0.0.0",port="8000")

@@ -41,7 +41,7 @@ services:
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 
-      - "87:4010"
+      - "8080:4010"
     networks:
       - taller_api
 
