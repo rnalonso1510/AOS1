@@ -9,7 +9,6 @@ services:
     networks:
         - taller_api
 
-
   clientes-backend:
       image: stoplight/prism:4
       container_name: clientes_mock
@@ -47,7 +46,26 @@ services:
           SWAGGER_JSON: /aos/openapi.yaml
       volumes:
           - ./openapi_vehiculos:/aos:ro
+  vehiculos-2:
+      image: albertoseijo/aos_grupo4_global:serviciovehiculos
+      ports:
+          - "8089:8080"
+      networks:
+          - taller_api
+      depends_on:
+          - vehiculosMongo
 
+  vehiculosMongo:
+      image: mongo
+      restart: always
+      networks:
+          - taller_api
+      environment:
+          MONGO_INITDB_DATABASE: ss1
+      ports:
+          - 27017:27017
+      volumes:
+          - db_data:/var/lib/mongo
 
   backend-notificaciones:
     image: stoplight/prism:4
@@ -65,8 +83,7 @@ services:
       environment:
           SWAGGER_JSON: /aos/notificaciones.yaml
       volumes:
-          - ./openapi_notificaciones:/aos:ro
-          
+          - ./openapi_notificaciones:/aos:ro       
 
   logs-backend:
         image: stoplight/prism:4
@@ -86,8 +103,6 @@ services:
         volumes:
             - ./openapi_logs:/logs:ro
 
-
-
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 
@@ -98,3 +113,5 @@ services:
 
 networks:
   taller_api:
+volumes:
+  db_data:
