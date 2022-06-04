@@ -46,6 +46,11 @@ De los dos equipos encargados de la implementación del servicio ninguno ha publ
 Podemos desplegarlo utilizando el comando `docker compose up -d` dentro de la carpeta `Taller`
 ## Despliegue mediante Kubernetes
 
+Para realizar el despliegue en Kubernetes nos apoyamos en la herramienta [Kompose](http://kompose.io). De esta forma podemos generar los ficheros `.yaml` correspondientes al fichero `docker-compose.yml` del Taller.
+
+Destacamos que, al no existir imagen en DockerHub de multiples servicios a integrar en el despliegue, nos hemos visto obligados a utilizar volumenes en los ficheros de Kubernetes. Estos volumenes necesitan una ruta absoluta para poder montar los ficheros de especificación necesarios.
+
+Verificamos el funcionamiento del comando `kubectl apply -f .` dentro de la carpeta `Kubernetes` en las siguientes imagenes:
 
 ## Despliegue en la nube pública de AWS mediante contenedores EC2
 
