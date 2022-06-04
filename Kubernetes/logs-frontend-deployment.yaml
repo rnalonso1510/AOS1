@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: ./kompose convert -f Taller/docker-compose.yml
+    kompose.cmd: ./kompose convert -f Taller/docker-compose.yml --volumes hostPath
     kompose.version: 1.26.1 (a9d05d509)
   creationTimestamp: null
   labels:
@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        kompose.cmd: ./kompose convert -f Taller/docker-compose.yml
+        kompose.cmd: ./kompose convert -f Taller/docker-compose.yml --volumes hostPath
         kompose.version: 1.26.1 (a9d05d509)
       creationTimestamp: null
       labels:
@@ -35,12 +35,11 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /logs
-              name: logs-frontend-claim0
+              name: logs-frontend-hostpath0
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: logs-frontend-claim0
-          persistentVolumeClaim:
-            claimName: logs-frontend-claim0
-            readOnly: true
+        - hostPath:
+            path: /run/desktop/mnt/host/c/Users/Eduardo/AOS1/Taller/openapi_logs
+          name: logs-frontend-hostpath0
 status: {}

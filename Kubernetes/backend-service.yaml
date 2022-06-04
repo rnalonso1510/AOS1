@@ -2,18 +2,18 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kompose.cmd: ./kompose convert -f Taller/docker-compose.yml --volumes hostPath
+    kompose.cmd: ./kompose convert
     kompose.version: 1.26.1 (a9d05d509)
   creationTimestamp: null
   labels:
-    io.kompose.service: recambios
-  name: recambios
+    io.kompose.service: backend
+  name: backend
 spec:
   ports:
-    - name: "8095"
-      port: 8095
+    - name: "4010"
+      port: 4010
       targetPort: 4010
   selector:
-    io.kompose.service: recambios
+    io.kompose.service: backend
 status:
   loadBalancer: {}

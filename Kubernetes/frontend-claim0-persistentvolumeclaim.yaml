@@ -3,8 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: trabajos-frontend-claim0
-  name: trabajos-frontend-claim0
+    io.kompose.service: frontend-claim0
+  name: frontend-claim0
 spec:
   accessModes:
     - ReadOnlyMany

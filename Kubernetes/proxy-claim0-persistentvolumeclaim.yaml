@@ -3,14 +3,12 @@ kind: PersistentVolumeClaim
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: clientes-backend-claim0
-  name: clientes-backend-claim0
+    io.kompose.service: proxy-claim0
+  name: proxy-claim0
 spec:
   accessModes:
-    - ReadOnlyMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 100Mi
-  hostPath:
-    path: "../Taller/openapi_clientes/"
 status: {}
