@@ -75,6 +75,7 @@ services:
       - 4018:4010
     volumes:
         - ./openapi_notificaciones:/aos:ro
+        
   frontend-notificaciones:
       image: swaggerapi/swagger-ui
       container_name: notificaciones_ui
