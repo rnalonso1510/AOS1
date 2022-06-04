@@ -41,7 +41,7 @@ Además, el servicio ofrece una especificación en OpenAPI para realizar consult
 - **Servicio 6. Gestión de Recambios**
 Integración realizada utilizando la imagen de DockerHub del equipo. No existe dependencia con otro servicio, su persistencia esta incluida en la imágen.
 - **Servicio 7. Gestión de Logs**
-
+De los dos equipos encargados de la implementación del servicio ninguno ha publicado una imagen en DockerHub en el momento de escribir esta memoria. Por ello, utilizamos como mock la especificación en OpenAPI que el equipo desarrollo durante la primera parte de la práctica utilizando SpotLight y SwaggerUI. Está disponible en `localhost:8081` y `localhost:8001` para la interfaz de Swagger UI.
 
 Podemos desplegarlo utilizando el comando `docker compose up -d` dentro de la carpeta `Taller`
 ## Despliegue mediante Kubernetes
