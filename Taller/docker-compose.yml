@@ -66,25 +66,14 @@ services:
           - 27017:27017
       volumes:
           - db_data:/var/lib/mongo
-
-  backend-notificaciones:
-    image: stoplight/prism:4
-    container_name: notificaciones_mock
-    command: mock --cors -h 0.0.0.0 "/aos/notificaciones.yaml"
-    ports:
-      - 4018:4010
-    volumes:
-        - ./openapi_notificaciones:/aos:ro
-        
-  frontend-notificaciones:
-      image: swaggerapi/swagger-ui
-      container_name: notificaciones_ui
-      ports:
-          - 8004:8080
-      environment:
-          SWAGGER_JSON: /aos/notificaciones.yaml
-      volumes:
-          - ./openapi_notificaciones:/aos:ro       
+          
+  notificaciones:
+        image: enriquer47/api_notificaciones:0.0.1
+        container_name: notificaciones_service
+        ports:
+        - 7777:5000
+        networks:
+        - taller_api     
 
   logs-backend:
         image: stoplight/prism:4

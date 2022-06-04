@@ -28,10 +28,18 @@ En el momento de escritura de este fichero existe una imagen en DockerHub que de
 Una vez integrada esta imagen observamos que no es funcional y, aunque despliega un servicio en Ubuntu, este no sirve ninguna web a través de ningún puerto. Por ello, al igual que en el servicio de clientes, utilizamos Spotlight Y Swagger para la realización del mock.
 Este servicio esta disponible en `localhost:8006/`
 - **Servicio 3. Gestión de Trabajos**
- Pendiente realizar integración en dockercopose
+No hay imagen generada en DockerHub del servicio. Observamos que existe cierta implementación en su repositorio de GitHub con excasa documentación. Por este motivo generamos una instancia de Spotlight para el mockeo del servicio y una instancia de Swagger UI  basandonos en la implementación que tienen publicada en GitHub dentro del Moodle de la asignatura.
 - **Servicio 4. Gestión de Notificaciones**
+Integramos la imagen facilitada por el equipo desde DockerHub.
+Al inspeccionarla utilizimando el comando `exec` observamos que esta desarrollada en Flask e integra una base de datos en Sqlite3. No hay documentación del servicio pero tambien podemos comrpobar que utiliza el puerto 5000.
+Una vez desplegado el servicio debería estar accesible en `localhost:7777/notificaciones/` pero la página devuelve un mensaje de error. Desde la consola del servicio aparece un error de SQL: tabla no encontrada.
+
 - **Servicio 5. Gestión de Facturas**
+Servicio desarrollado por el equipo. Desplegado utilizando FastAPI y Python.
+Puede consultarse este servicio en `localhost:8000`.
+Además, el servicio ofrece una especificación en OpenAPI para realizar consultas en `localhost:8000\docs\`generada automáticamente gracias a FastAPI.
 - **Servicio 6. Gestión de Recambios**
+Integración realizada utilizando la imagen de DockerHub del equipo. No existe dependencia con otro servicio, su persistencia esta incluida en la imágen.
 - **Servicio 7. Gestión de Logs**
 
 
@@ -40,4 +48,5 @@ Podemos desplegarlo utilizando el comando `docker compose up -d` dentro de la ca
 
 
 ## Despliegue en la nube pública de AWS mediante contenedores EC2
+
 
