@@ -7,7 +7,7 @@ services:
     ports: 
       - "81:80"
     networks:
-        - taller_api
+        - taller-api
 
   clientes-backend:
       image: stoplight/prism:4
@@ -51,29 +51,29 @@ services:
       ports:
           - "8089:8080"
       networks:
-          - taller_api
+          - taller-api
       depends_on:
-          - vehiculosMongo
+          - vehiculosmongo
 
-  vehiculosMongo:
+  vehiculosmongo:
       image: mongo
       restart: always
       networks:
-          - taller_api
+          - taller-api
       environment:
           MONGO_INITDB_DATABASE: ss1
       ports:
           - 27017:27017
       volumes:
           - db_data:/var/lib/mongo
-          
+
   notificaciones:
         image: enriquer47/api_notificaciones:0.0.1
         container_name: notificaciones_service
         ports:
         - 7777:5000
         networks:
-        - taller_api     
+        - taller-api     
 
   logs-backend:
         image: stoplight/prism:4
@@ -98,7 +98,7 @@ services:
     ports: 
       - "8095:4010"
     networks:
-      - taller_api
+      - taller-api
 
   trabajos-backend:
         image: stoplight/prism:4
@@ -118,6 +118,6 @@ services:
     ports:
       - 8090:8080
 networks:
-  taller_api:
+  taller-api:
 volumes:
   db_data:
