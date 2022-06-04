@@ -1,0 +1,530 @@
+openapi: 3.0.2
+
+info:
+  title: '[AOS] Especificación API REST de Subsistema de Vehículos'
+  description: '*Gestión de Vehículos de clientes*'
+  version: "1.0"
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  contact:
+    name: Grupo7
+    url: 'www.vehiculos_taller.com'
+    email: grupo7@upm.es
+
+servers:
+  - url: http://127.0.0.1:4016
+
+tags:
+  - name: '🚗 Vehicles'
+    description: Vehiculos de los clientes arreglados en el taller
+
+paths:
+  /vehiculos:
+    get:
+      summary: Obtiene todos los vehiculos
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code | Descripción | Motivo                             |
+        | ------------| ------------| -----------------------------------|
+        | **200**     | OK          | Hay vehiculos                    |
+        | **404**     | NOT FOUND   | No hay ningún vehiculo           |
+      tags: [ '🚗 Vehicles' ]
+      operationId: vehicles_cget
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/orderParam'
+        - $ref: '#/components/parameters/orderingParam'
+      responses:
+        '200':
+          description: Lista de vehiculos disponibles
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vehicles:
+                    description: array de vehiculos
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vehicle'
+                  links:
+                    description: Enlaces de paginación
+                    readOnly: true
+                    type: object
+                    properties:
+                      prevPage:
+                        $ref: '#/components/schemas/Link'
+                      nextPage:
+                        $ref: '#/components/schemas/Link'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    options:
+      tags: [ '🚗 Vehicles' ]
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: vehicles_coptions
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/AllowHome '
+    post:
+      summary: Añade un nuevo vehiculo
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code | Descripción          | Motivo                                    |
+        | ------------| ---------------------| ------------------------------------------|
+        | **201**     | CREATED              | El vehiculo ha sido creado              |
+        | **422**     | UNPROCESSABLE ENTITY | Falta alguno de los atributos obligatorios|
+      tags: [ '🚗 Vehicles' ]
+      operationId: vehicles_post
+      requestBody:
+        $ref: '#/components/requestBodies/vehicleRB'
+      responses:
+        '201':
+          description: Nuevo vehiculo creado
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+              examples:
+                vehicleExample:
+                  $ref: '#/components/examples/vehicle-example'
+        '422':
+          $ref: '#/components/responses/Response_422'
+
+  /vehiculos/{VIN}:
+    parameters:
+      - $ref: '#/components/parameters/VIN'
+    get:
+      summary: Obtiene un vehiculo identificado por su `VIN`
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code      | Descripción | Motivo                             |
+        | ---------------- | ------------| -----------------------------------|
+        | **200**          | OK          | Si el vehiculo existe                 |
+        | **404**          | NOT FOUND   | Si el vehiculo no existe              |
+      tags: [ '🚗 Vehicles' ]
+      operationId: vehicle_get
+      responses:
+        '200':
+          description: Vehiculo
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+              examples:
+                vehicleExample:
+                  $ref: '#/components/examples/vehicle-example'
+        '404':
+          $ref: '#/components/responses/Response_404'
+
+    delete:
+      summary: Elimina un vehiculo identificado por su `VIN`
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+
+        | Status Code      | Descripción | Motivo                                    |
+        | ---------------- | ------------| ------------------------------------------|
+        | **204**          | NO CONTENT  | El vehiculo existía y ha sido eliminado |
+        | **404**          | NOT FOUND   | Si el vehiculo no existe                |
+      tags: [ '🚗 Vehicles' ]
+      operationId: vehicle_delete
+      responses:
+        '204':
+          description: vehiculo eliminado &lt;Cuerpo de la respuesta vacío&gt;
+        '404':
+          $ref: '#/components/responses/Response_404'
+
+    options:
+      tags: [ '🚗 Vehicles' ]
+      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
+      operationId: vehicle_options
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/AllowVIN'
+
+    put:
+      tags: [ '🚗 Vehicles' ]
+      summary: Modifica un vehiculo.
+      description: |
+        La siguiente tabla define los códigos de estado que puede devolver este endpoint
+        | Status Code | Descripción         | Motivo                                        |
+        | ------------| --------------------| ----------------------------------------------|
+        | **200**     | OK                  | El vehiculo existía y ha sido modificado    |
+        | **404**     | NOT FOUND           | Si el vehiculo no existe                    |
+        | **412**     | PRECONDITION FAILED | Si el ETag proporcionado no está actualizado  |
+      operationId: vehicle_put
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      requestBody:
+        $ref: '#/components/requestBodies/vehicleUpdate'
+      responses:
+        '200':
+          description: '`OK`: el vehiculo ha sido modificado'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'        
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '412':
+          $ref: '#/components/responses/Response_412'
+
+
+
+components:
+
+  schemas:
+
+    Vehicle:
+      $ref: './schemas/vehicle.yaml'
+    Tipo_De_Vehiculo:
+      $ref: './schemas/tipoDeVehiculo.yaml'
+    Tipo_De_Vehiculo_Extra:
+      $ref: './schemas/tipoDeVehiculoExtra.yaml'
+    Car:
+      $ref: './schemas/car.yaml'
+    Motorbike:
+      $ref: './schemas/motorbike.yaml'
+    Truck: 
+      $ref: './schemas/truck.yaml'
+    Tipo_De_Combustible:
+      $ref: './schemas/tipoDeCombustible.yaml'
+    Distintivo_Ambiental:
+      $ref: './schemas/distintivoAmbiental.yaml'
+    HTTP_Error: 
+      $ref: './schemas/HTTP_Error.yaml'
+    Link: 
+      $ref: './schemas/link.yaml'
+  requestBodies:
+
+    vehicleRB:
+      description: Información de un vehiculo
+      required: true
+      content:
+        application/json:
+          schema: 
+            type: object
+            required: [ VIN, matricula_actual, tipo_de_vehiculo, modelo, marca, tipo_de_combustible ] 
+            properties:
+              VIN:
+                description: Identificador de vehiculo
+                type: string
+                pattern: "[A-Ha-hJ-Nj-nPpR-Tr-tV-Yv-y1-9]{1}[0-9]{6}" 
+              matricula_actual:
+                description: Matricula de vehiculo
+                type: string
+              matriculas_anteriores:
+                description: Array de matriculas anteriores
+                type: array
+                items:
+                  type: string
+              tipo_de_vehiculo:
+                $ref: '#/components/schemas/Tipo_De_Vehiculo'
+              extra_tipo_de_vehiculo:
+                $ref: '#/components/schemas/Tipo_De_Vehiculo'
+              kilometraje:
+                description: Numero de kilometros de vehiculo
+                type: integer
+              marca:
+                description: Marca de vehiculo
+                type: string
+              modelo:
+                description: Modelo de vehiculo
+                type: string
+              CV:
+                description: CV de vehiculo
+                type: integer
+              anio_fabricacion:
+                description: Anio de fabricacion de vehiculo
+                type: integer
+                minimum: 1886
+              tipo_de_combustible:
+                $ref: '#/components/schemas/Tipo_De_Combustible'
+              distintivo_ambiental:
+                $ref: '#/components/schemas/Distintivo_Ambiental'
+              tamanio_deposito:
+                description: Tamanio del deposito de vehiculo en Litros
+                type: integer
+              motor:
+                description: Motor de vehiculo
+                type: string
+              peso:
+                description: Peso de vehiculo
+                type: integer
+              dimensiones:
+                description: Dimensiones de vehiculo en milimetros (Largo x Ancho x Alto)
+                type: string
+          examples:
+            vehicleRB-example:
+              $ref: '#/components/examples/vehicleRB-example'
+
+    vehicleUpdate:
+      description: Información de un vehiculo
+      content:
+        application/json:
+          schema: 
+            type: object
+            properties:
+              matricula_actual:
+                description: Matricula de vehiculo
+                type: string
+              matriculas_anteriores:
+                description: Array de matriculas anteriores
+                type: array
+                items:
+                  type: string
+              tipo_de_vehiculo:
+                $ref: '#/components/schemas/Tipo_De_Vehiculo'
+              extra_tipo_de_vehiculo:
+                $ref: '#/components/schemas/Tipo_De_Vehiculo'
+              kilometraje:
+                description: Numero de kilometros de vehiculo
+                type: integer
+              marca:
+                description: Marca de vehiculo
+                type: string
+              modelo:
+                description: Modelo de vehiculo
+                type: string
+              CV:
+                description: CV de vehiculo
+                type: integer
+              anio_fabricacion:
+                description: Anio de fabricacion de vehiculo
+                type: integer
+                minimum: 1886
+              tipo_de_combustible:
+                $ref: '#/components/schemas/Tipo_De_Combustible'
+              distintivo_ambiental:
+                $ref: '#/components/schemas/Distintivo_Ambiental'
+              tamanio_deposito:
+                description: Tamanio del deposito de vehiculo en Litros
+                type: integer
+              motor:
+                description: Motor de vehiculo
+                type: string
+              peso:
+                description: Peso de vehiculo
+                type: integer
+              dimensiones:
+                description: Dimensiones de vehiculo en milimetros (Largo x Ancho x Alto)
+                type: string
+          examples:
+            vehicleRB-example:
+              $ref: '#/components/examples/vehicleRBUpdate-example'
+  headers:
+    ETag:
+      description: Entity Tag (identificador único proporcionado para validación de caché)
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+        # https://github.com/marak/Faker.js#api-methods
+        x-faker: random.uuid
+        example:
+          33a64df551425fcc
+    AllowVIN:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example: GET,DELETE,PUT,OPTIONS
+    AllowHome:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example: GET,POST,OPTIONS
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: uri
+        x-faker: internet.url
+        example:
+          https://example.com/api/v1/vehiculos/MN109186
+
+  responses:
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Error'  
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response_http_404'
+    Response_412:
+      description: '`PRECONDITION FAILED`: El ETag proporcionado no está actualizado'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Error'   
+          examples:
+            response-http-412:
+              $ref: '#/components/examples/response_http_412'
+    Response_422:
+      description: >
+        `UNPROCESSABLE ENTITY`
+        Falta alguno de los atributos obligatorios ('VIN', 'modelo', 'matricula_actual', 'tipo_de_vehiculo', 'marca', 'tipo_de_combustible')
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Error'  
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response_http_422'
+
+  parameters:
+    VIN:
+      name: VIN
+      in: path
+      description: Identificador único del vehiculo
+      schema:
+        description: Identificador de vehiculo
+        type: string
+        pattern: "[A-Ha-hJ-Nj-nPpR-Tr-tV-Yv-y1-9]{1}[0-9]{6}" 
+      required: true
+
+    ifMatchParam:
+      name: If-Match
+      in: header
+      description: ETag del vehiculo que se desea modificar
+      required: true
+      schema:
+        type: string
+        pattern: "[0-9a-f]*"
+    orderParam:
+      name: order
+      in: query
+      description: 'Criterio de ordenación: `VIN` | `modelo`' 
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: string
+        enum:
+          - VIN
+          - modelo
+    orderingParam:
+      name: ordering
+      in: query
+      description: 'Ordenación: `ASC` | `DESC`'
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: string
+        enum:
+          - ASC
+          - DESC
+    pageParam:
+      name: page
+      in: query
+      description: 'Número de página'
+      required: false
+      allowEmptyValue: false
+      schema:
+        type: integer
+        minimum: 1
+
+  examples:
+
+    vehicle-example:
+      value:
+        vehicle:
+          VIN: M109186
+          matricula_actual: 0808 LCD
+          matriculas_anteriores: [ CL 384 DC ]
+          tipo_de_vehiculo: Coche
+          kilometraje: 3000
+          marca: Ford
+          modelo: Ranger XLT
+          CV: 170
+          anio_fabricacion: 2020
+          tipo_de_combustible: Gasoleo o Diesel
+          distintivo_ambiental: Categoría C
+          tamanio_deposito: 80
+          motor: 3.2 L
+          peso: 2106
+          dimensiones: 5354 x 1860 x 1815
+          links:
+            parent:
+              href: https://example.com/api/v1/vehicle
+              rel: listaVehiculos 
+            self:
+              href: https://example.com/api/v1/vehicle/MN109186
+              rel: obtenerVehiculo modificarVehiculo eliminarVehiculo #REVISAR
+    vehicleRB-example:
+      value:
+        VIN: M109186
+        matricula_actual: M PX 1991
+        matriculas_anteriores: [ 0808 LCD, CL 384 DC ]
+        tipo_de_vehiculo: Coche
+        kilometraje: 3000
+        marca: Ford
+        modelo: Ranger XLT
+        CV: 170
+        anio_fabricacion: 2020
+        tipo_de_combustible: Gasoleo o Diesel
+        distintivo_ambiental: Categoría C
+        tamanio_deposito: 80
+        motor: 3.2 L
+        peso: 2106
+        dimensiones: 5354 x 1860 x 1815
+    vehicleRBUpdate-example:
+      value:
+        matricula_actual: M PX 1991
+        matriculas_anteriores: [ 0808 LCD, CL 384 DC ]
+        tipo_de_vehiculo: Coche
+        kilometraje: 3000
+        marca: Ford
+        modelo: Ranger XLT
+        CV: 170
+        anio_fabricacion: 2020
+        tipo_de_combustible: Gasoleo o Diesel
+        distintivo_ambiental: Categoría C
+        tamanio_deposito: 80
+        motor: 3.2 L
+        peso: 2106
+        dimensiones: 5354 x 1860 x 1815
+    
+
+    response_http_404:
+      value:
+        type: https://httpstatuses.com/412
+        title: NOT FOUND
+        status: 404
+        detail: El recurso solicitado no está disponible.
+        instance: about:blank
+
+    response_http_412:
+      value:
+        type: https://httpstatuses.com/404
+        title: PRECONDITION FAILED 
+        status: 412
+        detail: El ETag proporcionado no está actualizado
+        instance: about:blank
+
+    response_http_422:
+      value:
+        type: https://httpstatuses.com/422
+        title: UNPROCESSABLE ENTITY
+        status: 422
+        detail: Ausencia de atributos obligatorios (VIN, modelo, matricula_actual, tipo_de_vehiculo, marca, tipo_de_combustible)
+        instance: about:blank

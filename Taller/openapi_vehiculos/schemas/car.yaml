@@ -1,0 +1,16 @@
+#Car
+description: Tipo de vehiculo Coche
+title: "🚗 Car"
+type: object
+properties:
+  Car:
+    type: object
+    properties:
+      numeroPuertas:
+        description: Número de puertas del Coche
+        type: integer
+        format: int32
+      numeroDePlazas:
+        description: Número de plazas para ocupantes del Coche
+        type: integer
+        format: int32

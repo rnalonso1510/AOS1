@@ -8,30 +8,66 @@ services:
       - "81:80"
     networks:
         - taller_api
-  clientes:
-    image: eloz/grupo8facturas:latest
-    ports: 
-      - "82:80"
-    networks:
-        - taller_api
-  vehiculos:
-    image: esteban23/gestionvehiculosaos:v1
-    ports: 
-      - "83:5000"
-    networks:
-        - taller_api
-  trabajos:
-    image: eloz/grupo8facturas:latest
-    ports: 
-      - "84:80"
-    networks:
-        - taller_api
-  notificaciones:
-    image: eloz/grupo8facturas:latest
-    ports: 
-      - "85:80"
-    networks:
-        - taller_api
+
+
+  clientes-backend:
+      image: stoplight/prism:4
+      container_name: clientes_mock
+      command: mock --cors -h 0.0.0.0 "/AOS/clientes.yaml"
+      ports:
+        - 4015:4010
+      volumes:
+          - ./openapi_clientes:/AOS:ro
+  clientes-frontend:
+      image: swaggerapi/swagger-ui
+      container_name: clientes_ui
+      ports:
+          - 8005:8080
+      environment:
+          SWAGGER_JSON: /AOS/clientes.yaml
+      volumes:
+          - ./openapi_clientes:/AOS:ro
+
+
+  vehiculos-backend:
+      image: stoplight/prism:4
+      container_name: vehicles_mock
+      command: mock --cors -h 0.0.0.0 "/aos/openapi.yaml"
+      ports:
+        - "4016:4010"
+      volumes:
+          - ./openapi_vehiculos:/aos:ro
+
+  vehiculos-frontend:
+      image: swaggerapi/swagger-ui:latest
+      container_name: vehicles_ui
+      ports:
+          - "8006:8080"
+      environment:
+          SWAGGER_JSON: /aos/openapi.yaml
+      volumes:
+          - ./openapi_vehiculos:/aos:ro
+
+
+  backend-notificaciones:
+    image: stoplight/prism:4
+    container_name: notificaciones_mock
+    command: mock --cors -h 0.0.0.0 "/aos/notificaciones.yaml"
+    ports:
+      - 4018:4010
+    volumes:
+        - ./openapi_notificaciones:/aos:ro
+  frontend-notificaciones:
+      image: swaggerapi/swagger-ui
+      container_name: notificaciones_ui
+      ports:
+          - 8004:8080
+      environment:
+          SWAGGER_JSON: /aos/notificaciones.yaml
+      volumes:
+          - ./openapi_notificaciones:/aos:ro
+          
+
   logs-backend:
         image: stoplight/prism:4
         container_name: log_mocks
@@ -44,11 +80,14 @@ services:
         image: swaggerapi/swagger-ui:latest
         container_name: logs_ui
         ports:
-            - 8000:8080
+            - 8001:8080
         environment:
             SWAGGER_JSON: /logs/openapi.yaml
         volumes:
             - ./openapi_logs:/logs:ro
+
+
+
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 

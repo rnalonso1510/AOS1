@@ -1,0 +1,24 @@
+#HTTP_Error:
+type: object
+description: |
+  Schema para las respuestas HTTP de errores(404, 412 y 422 en nuestro caso).
+properties:
+  type:
+    type: string
+    format: uri
+    description: Referencia URI que identifica el tipo del error.
+  title:
+    type: string
+    description: Resumen del tipo de problema.
+  status:
+    type: number
+    description: HTTP status code
+  detail:
+    type: string
+    description: Explicacion especifica del tipo de problema.
+  instance:
+    type: string
+    format: uri
+    description: "A URI reference that identifies the specific
+              occurrence of the problem.  It may or may not yield further
+              information if dereferenced"

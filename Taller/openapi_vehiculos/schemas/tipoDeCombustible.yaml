@@ -1,0 +1,19 @@
+#tipoDeCombustible
+description: 
+  Tipo de combustible o carburante utilizado por el Vehículo
+  Normativa Nacional (https://www.miteco.gob.es/es/calidad-y-evaluacion-ambiental/temas/atmosfera-y-calidad-del-aire/emisiones/act-emis/carburantes.aspx)
+type: string
+nullable: false
+enum:
+  - Gasolina
+  - Gasoleo o Diesel
+  - Eléctrico
+  - Híbrido Gasolina-Eléctrico
+  - Híbrido Gasolina-Gas licuado
+  - Híbrido Gasolina-Gas natural
+  - Híbrido Gasoleo-Eléctrico
+  - Híbrido Gasoleo-Gas licuado
+  - Híbrido Gasoleo-Gas natural
+
+
+

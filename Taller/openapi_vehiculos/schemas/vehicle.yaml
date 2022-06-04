@@ -1,0 +1,94 @@
+description: Informacion de un vehiculo
+title: '🚗 Vehicles'
+properties:
+  vehicle:
+    type: object
+    required:
+      - VIN
+      - matricula_actual
+      - tipo_de_vehiculo
+      - modelo
+      - marca
+      - tipo_de_combustible
+    properties:
+      VIN:
+        description: Identificador de vehiculo
+        type: string
+        pattern: "[A-Ha-hJ-Nj-nPpR-Tr-tV-Yv-y1-9]{1}[0-9]{6}" 
+      matricula_actual:
+        description: Matricula de vehiculo
+        type: string
+      matriculas_anteriores:
+        description: Array de matriculas anteriores
+        type: array
+        items:
+          type: string
+      tipo_de_vehiculo:
+        $ref: './tipoDeVehiculo.yaml' 
+      extra_tipo_de_vehiculo:
+        $ref: './tipoDeVehiculoExtra.yaml'
+      kilometraje:
+        description: Numero de kilometros de vehiculo
+        type: integer
+      marca:
+        description: Marca de vehiculo
+        type: string
+      modelo:
+        description: Modelo de vehiculo
+        type: string
+      CV:
+        description: CV de vehiculo
+        type: integer
+      anio_fabricacion:
+        description: Anio de fabricacion de vehiculo
+        type: integer
+        minimum: 1886
+      tipo_de_combustible:
+        $ref: './tipoDeCombustible.yaml'
+      distintivo_ambiental:
+        $ref: './distintivoAmbiental.yaml'
+      tamanio_deposito:
+        description: Tamanio del deposito de vehiculo en Litros
+        type: integer
+      motor:
+        description: Motor de vehiculo
+        type: string
+      peso:
+        description: Peso de vehiculo
+        type: integer
+      dimensiones:
+        description: Dimensiones de vehiculo en milimetros (Largo x Ancho x Alto)
+        type: string
+      links:
+        description: Enlaces de relación
+        readOnly: true
+        type: object
+        properties:
+          parent:
+            $ref: './link.yaml'
+          self:
+            $ref: './link.yaml'
+example:
+  vehicle:
+    VIN: M109186
+    matricula_actual: 0808 LCD
+    matriculas_anteriores: [ CL 384 DC ]
+    tipo_de_vehiculo: Coche
+    kilometraje: 3000
+    marca: Ford
+    modelo: Ranger XLT
+    CV: 170
+    anio_fabricacion: 2020
+    tipo_de_combustible: Gasoleo o Diesel
+    distintivo_ambiental: Categoría C
+    tamanio_deposito: 80
+    motor: 3.2 L
+    peso: 2106
+    dimensiones: 5354 x 1860 x 1815
+    links:
+      parent:
+        href: https://example.com/api/v1/vehicle
+        rel: listaVehiculos #REVISAR
+      self:
+        href: https://example.com/api/v1/vehicle/MN109186
+        rel: obtenerVehiculo modificarVehiculo eliminarVehiculo #REVISAR

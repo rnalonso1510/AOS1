@@ -1,0 +1,12 @@
+#camion
+description: Tipo de vehículo Camión
+title: "🚛 Truck"
+type: object
+properties:
+  truck:
+    type: object
+    properties:
+      tipoDeCamión:
+        description: >
+          Clasificación del camión (https://nayatrans.com/clasificacion-vehiculos-transporte/)
+        type: string

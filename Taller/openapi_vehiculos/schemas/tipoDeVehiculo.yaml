@@ -1,0 +1,9 @@
+#tipoDeVehiculo
+description: >
+  Clasificación de los distintos vehículos junto a sus características específicas Legislación Nacional (https://www.boe.es/biblioteca_juridica/codigos/codigo.php?id=418&modo=2&nota=0&tab=2)
+type: string
+nullable: true #En el caso de quads, cuadriciclos, ... se pone a null
+enum:
+  - Coche
+  - Moto
+  - Camion

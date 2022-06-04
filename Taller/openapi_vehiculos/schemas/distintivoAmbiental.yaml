@@ -1,0 +1,13 @@
+#distintivoAmbiental:
+description: >
+  Clasificación basada en el Distintivo Ambiental del vehículo
+  Normativa nacional (https://www.boe.es/boe/dias/2018/07/31/pdfs/BOE-A-2018-10856.pdf)
+  (Los coches sin distintivo pertenecen a la categoría A)
+type: string
+nullable: false
+enum:
+  - Categoría 0 Emisiones
+  - Categoría Eco
+  - Categoría C
+  - Categoría B
+  - Categoría A

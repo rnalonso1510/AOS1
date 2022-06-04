@@ -1,0 +1,12 @@
+#motorbike
+description: Tipo de vehículo motocicleta
+title: "🏍️ Motorbike"
+type: object
+properties:
+  motorbike:
+    type: object
+    properties:
+      centimetrosCubicos:
+        description: Tamaño del motor en centimetros cúbicos
+        type: integer
+        format: int32

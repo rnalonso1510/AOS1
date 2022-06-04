@@ -1,0 +1,7 @@
+#tipo de vehiculo extra
+oneOf:
+  - $ref: './car.yaml'
+  - $ref: './motorbike.yaml'
+  - $ref: './truck.yaml'
+discriminator:
+  propertyName: Tipo_De_Vehiculo
