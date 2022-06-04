@@ -107,11 +107,27 @@ services:
   recambios:
     image: ghcr.io/adrianja5/aos-implementacion-servicio-recambios
     ports: 
-      - "8080:4010"
+      - "8095:4010"
     networks:
       - taller_api
 
-
+  trabajos-backend:
+        image: stoplight/prism:4
+        container_name: trabajos-backend
+        command: mock --cors -h 0.0.0.0 "/aos/swagger.yaml"
+        ports:
+          - 8091:4010
+        volumes:
+            - ./openapi_trabajos:/aos:ro
+  trabajos-frontend:
+    image: swaggerapi/swagger-ui
+    container_name: trabajos-frontend
+    environment:
+        SWAGGER_JSON: /api/swagger.yaml
+    volumes:
+        - ./openapi_trabajos:/api:ro
+    ports:
+      - 8090:8080
 networks:
   taller_api:
 volumes:

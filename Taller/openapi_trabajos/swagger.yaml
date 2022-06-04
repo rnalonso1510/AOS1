@@ -12,7 +12,7 @@ info:
     email: "soporte@tumecanico.com"
 
 servers:
-  - url: http://localhost:
+  - url: http://localhost:8091
 
 tags:
   - name: '🔨 Trabajo'
