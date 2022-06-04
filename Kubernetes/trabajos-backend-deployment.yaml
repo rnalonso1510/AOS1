@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -f Taller/docker-compose.yml
+    kompose.version: 1.26.1 (a9d05d509)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: trabajos-backend
+  name: trabajos-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: trabajos-backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert -f Taller/docker-compose.yml
+        kompose.version: 1.26.1 (a9d05d509)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: trabajos-backend
+    spec:
+      containers:
+        - args:
+            - mock
+            - --cors
+            - -h
+            - 0.0.0.0
+            - /aos/swagger.yaml
+          image: stoplight/prism:4
+          name: trabajos-backend
+          ports:
+            - containerPort: 4010
+          resources: {}
+          volumeMounts:
+            - mountPath: /aos
+              name: trabajos-backend-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: trabajos-backend-claim0
+          persistentVolumeClaim:
+            claimName: trabajos-backend-claim0
+            readOnly: true
+status: {}
