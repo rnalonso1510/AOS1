@@ -62,3 +62,8 @@ Para la simulación del servicio se crean 3 contenedores:
 2.**Backend**:  Simula la funcionalidad del servicio mediante Spotlight Prism sin necesidad de implementación.
 
 3.**Frontend**: Interfaz de Swagger-UI desde la cual realizar las peticiones de prueba y consultar la especificación de la API en OpenAPI3.
+
+
+# Integración servicios del Taller
+
+La información respectiva al despliegue y servicios del taller puede encontrarse en el fichero [README.md](/Taller/readme.md)

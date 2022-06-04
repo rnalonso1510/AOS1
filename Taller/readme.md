@@ -1,0 +1,43 @@
+
+# Consideraciones de diseño y despliegue
+
+
+## Imagen Facturas
+
+Realizamos el desarrollo de nuestro servicio correspondiente a la gestión y emisión de facturas de un taller mediante FastAPI.
+
+La aplicación desarrollada se despliega sobre una imagen de Python-3.9 de Docker. La persistencia se realiza utilizando un fichero sqlite3, integrado dentro de la imagen pr lo que no es necesario desplegar servicios adicionales.
+
+La imagen se encuentra disponible en el siguiente  [enlace a DockerHub](https://hub.docker.com/repository/docker/eloz/grupo8facturas)
+
+Podemos crear esta imagen utilizando el comando 
+`docker run --name <nombre> 80:80 eloz/grupo8facturas:latest`
+
+Una vez arrancado el contenedor tendremos disponible la documentación de la API en `localhost:80\docs`
+
+
+## Despliegue de servicios mediante Docker Compose
+
+Tras analizar el resto de servicios desarrollados para el Taller realizamos la siguiente integración:
+
+- **Servicio 1. Gestión de Clientes**
+En el momento de escritura de este fichero no se encuentra ningún desarrollo ni referencia a ningún enlace de Docker Hub. Por tanto, para simular la integración del servicio clientes con el resto de servicios del taller utilizamos la especificación en OpenAPI que el equipo desarrollo en la primera práctica, mockeandola con Spotlight y utilizando de front SwaggerUI.
+Esta interfaz puede encontrarse, una vez desplegados todos los servicios, en `localhost:8005/`
+- **Servicio 2. Gestión de Vehículos**
+En el momento de escritura de este fichero existe una imagen en DockerHub que depende de una imagen de MongoDB.
+Una vez integrada esta imagen observamos que no es funcional y, aunque despliega un servicio en Ubuntu, este no sirve ninguna web a través de ningún puerto. Por ello, al igual que en el servicio de clientes, utilizamos Spotlight Y Swagger para la realización del mock.
+Este servicio esta disponible en `localhost:8006/`
+- **Servicio 3. Gestión de Trabajos**
+ Pendiente realizar integración en dockercopose
+- **Servicio 4. Gestión de Notificaciones**
+- **Servicio 5. Gestión de Facturas**
+- **Servicio 6. Gestión de Recambios**
+- **Servicio 7. Gestión de Logs**
+
+
+Podemos desplegarlo utilizando el comando `docker compose up -d` dentro de la carpeta `Taller`
+## Despliegue mediante Kubernetes
+
+
+## Despliegue en la nube pública de AWS mediante contenedores EC2
+
