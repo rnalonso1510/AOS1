@@ -66,4 +66,4 @@ Para la simulación del servicio se crean 3 contenedores:
 
 # Integración servicios del Taller
 
-La información respectiva al despliegue y servicios del taller puede encontrarse en el fichero [README.md](/Taller/readme.md)
+La información respectiva al despliegue y servicios del taller puede encontrarse en el fichero [README.md](/Taller/readme.md) dentro de la carpeta `Taller`
