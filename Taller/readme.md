@@ -54,4 +54,28 @@ Verificamos el funcionamiento del comando `kubectl apply -f .` dentro de la carp
 
 ## Despliegue en la nube pública de AWS mediante contenedores EC2
 
+Elegimos AWS como nube pública en la que realizar el despliegue. Concretamente lanzamos una instancia EC2 con tamaño "micro", que se incluye en la prueba gratuita de AWS.
 
+<img src="imgs/detalles_instancia.png"/>
+
+Una vez dentro de la instancia EC2 en la que hemos instalado AMI ejecutamos los siguientes comandos para instalar docker
+
+```sh
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+```
+
+Una vez instalado y funcionando, clonamos nuestro repositorio con
+
+`git clone https://github.com/xhiibrids/AOS1`
+
+Ahora sólo resta levantar los servicios con docker-compose y observamos como se inician.
+
+<img src="imgs/despliegue.png"/>
+
+Ahora sólo nos queda comprobar si podemos acceder, para eso creamos una regla ACL para permitir el tráfico entrante y comprobar en nuestro navegador si podemos alcanzar algún servicio.
+
+Finalmente, tratamos de acceder a un servicio cualquiera. Sin embargo, la instancia t2.micro queda bloqueada al faltarle recursos como podemos observar.
+
+<img src="imgs/cpu.png"/>
